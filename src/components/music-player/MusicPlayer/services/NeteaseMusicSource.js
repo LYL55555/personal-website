@@ -7,8 +7,11 @@ const METADATA_TTL_MS = 1000 * 60 * 30;
 const metadataCache = new Map();
 const metadataInflight = new Map();
 
+const DEFAULT_PLAYLIST =
+  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "13583418396";
+
 export class NeteaseMusicSource extends MusicSourceInterface {
-  constructor(playlistId = "13153655441") {
+  constructor(playlistId = DEFAULT_PLAYLIST) {
     super();
     this.playlistId = playlistId;
     this.apiBaseUrl = "/api/netease"; // 需要创建的API端点

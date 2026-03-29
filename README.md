@@ -15,7 +15,7 @@ The project structure aligns with common beginner portfolio tutorials (e.g. [thi
 - **Music** — NetEase-backed player (`/api/netease/*`): playlists, playback URLs, lyrics, quality handling, artwork; state persists across client-side navigation.
 - **Contact** — Form with Google reCAPTCHA v2; email delivery documented for EmailJS or a server route.
 - **Content** — Data-driven education, projects, certifications/awards, and related sections (see customization list).
-- **Tooling** — Dynamic imports for heavier sections, Jest scaffolding, optional webpack bundle analyzer (`ANALYZE=true`).
+- **Tooling** — Dynamic imports for heavier sections, optional webpack bundle analyzer (`ANALYZE=true`).
 
 **Documentation:** [Template setup](docs/TEMPLATE_SETUP.md) (env, email, NetEase, compliance) · [3D model](docs/3D_MODEL.md) · [Music player notes](docs/MUSIC_PLAYER.md).
 

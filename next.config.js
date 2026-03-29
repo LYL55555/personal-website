@@ -12,10 +12,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "p.ipic.vip",
-      },
-      {
-        protocol: "https",
         hostname: "media.licdn.com",
       },
       {
