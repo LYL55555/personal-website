@@ -169,9 +169,13 @@ input[type="range"]::-moz-range-track {
   border-radius: 2px;
 }
 
-/* 主题切换：只作用于主壳层，避免 html * 整页过渡导致掉帧；不含 transform/filter，减少与 Framer Motion 等冲突 */
+/* 主题切换：只作用于主壳层；不对 button/link/表单控件过渡 color（避免与组件自身样式叠层、出现多次插值） */
 .theme-transition .theme-color-scope,
-.theme-transition .theme-color-scope * {
+.theme-transition
+  .theme-color-scope
+  *:not(button):not(a):not(input):not(textarea):not(select):not(
+    [role="button"]
+  ):not([role="tab"]) {
   transition-property: color, background-color, border-color, fill, stroke,
     opacity, box-shadow;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

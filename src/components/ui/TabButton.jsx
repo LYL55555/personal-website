@@ -3,15 +3,20 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-/** 与 html.dark 一致，避免 ThemeContext mounted 前 isDarkMode 恒 false 导致选中态白字配浅色底 */
+/**
+ * Tab chrome: do not transition color/background (avoids stacked transitions with
+ * .theme-transition on .theme-color-scope * and “flicker” when toggling themes).
+ * Dark active: solid bg so we never show light-mode cream (base2) with inherited light text.
+ */
 const TabButton = ({ children, selectTab, active }) => {
   return (
     <motion.button
       onClick={selectTab}
-      className={`relative px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-solarized-blueUi/50 dark:focus:ring-solarized-accentGh/50 ${
+      type="button"
+      className={`relative px-4 py-2 rounded-lg text-sm sm:text-base font-medium ease-in-out focus:outline-none focus:ring-2 focus:ring-solarized-blueUi/50 dark:focus:ring-solarized-accentGh/50 motion-reduce:transition-none transition-[transform,box-shadow,border-color] duration-200 ${
         active
-          ? "transform-none border-2 border-solarized-blue bg-solarized-base2 text-solarized-base03 shadow-md dark:border-transparent dark:bg-gradient-to-r dark:from-solarized-accentGh dark:to-[#3178c6] dark:text-white dark:shadow-lg"
-          : "text-solarized-base01 hover:bg-solarized-base1/10 hover:text-solarized-blueUi hover:-translate-y-0.5 dark:text-solarized-base1 dark:hover:bg-solarized-base01/20 dark:hover:text-white"
+          ? "border-2 border-solarized-blue bg-solarized-base2 text-solarized-base03 shadow-md dark:border-solarized-blue dark:bg-solarized-base02 dark:text-solarized-base3 dark:shadow-lg"
+          : "border-2 border-transparent text-solarized-base01 hover:bg-solarized-base1/15 hover:text-solarized-blueUi hover:-translate-y-0.5 dark:text-solarized-base1 dark:hover:bg-solarized-base01/25 dark:hover:text-solarized-base3"
       }`}
       whileHover={{ scale: active ? 1 : 1.02 }}
       whileTap={{ scale: 0.98 }}

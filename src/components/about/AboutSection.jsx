@@ -24,7 +24,7 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className={`flex flex-col gap-6 sm:gap-8 relative items-center theme-text ${
+      className={`flex flex-col gap-6 sm:gap-8 relative items-center ${
         isDarkMode ? "dark-theme" : "light-theme"
       }`}
     >
@@ -52,7 +52,7 @@ const AboutSection = () => {
               About Me
             </h3>
 
-            <div className="space-y-4 sm:space-y-5 text-sm sm:text-base lg:text-lg text-left leading-relaxed text-pretty">
+            <div className="space-y-4 sm:space-y-5 text-sm sm:text-base lg:text-lg text-left leading-relaxed text-pretty theme-text">
               <p>
                 I am <span className="font-semibold">Usagi</span> (うさぎ) — the
                 loud, carrot-loving rabbit from{" "}
