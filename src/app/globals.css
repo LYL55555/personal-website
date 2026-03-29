@@ -1,0 +1,250 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Three.js canvas styles */
+canvas {
+  touch-action: none;
+  outline: none;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Custom Scrollbar Styles */
+.scrollbar-dark::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: #073642;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background: #586e75;
+  border-radius: 3px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: #93a1a1;
+}
+
+.scrollbar-light::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-light::-webkit-scrollbar-track {
+  background: #eee8d5;
+}
+
+.scrollbar-light::-webkit-scrollbar-thumb {
+  background: #93a1a1;
+  border-radius: 3px;
+}
+
+.scrollbar-light::-webkit-scrollbar-thumb:hover {
+  background: #586e75;
+}
+
+/* 确保 Three.js 画布填充其容器 */
+.three-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 防止画布上的文本选择 */
+.three-container * {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 圆形容器样式 */
+.hero-model-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --navbar-height: 4.5rem;
+  --navbar-height-mobile: 4rem;
+}
+
+@layer base {
+  .react-resizable-handle {
+    @apply bg-gray-300 hover:bg-gray-400;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+/* 主题背景与正文色由 layout 壳层（solarized）提供，避免与 #fdf6e3 / #002b36 冲突 */
+body {
+  min-height: 100vh;
+  color: inherit;
+  background: transparent;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 15s linear infinite;
+  will-change: transform;
+  padding-right: 50px; /* Add space between the repeated text */
+}
+
+/* Add hover state to pause animation */
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom range input styles */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+/* Webkit (Chrome, Safari) styles */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--thumb-color, #586e75);
+  cursor: pointer;
+  margin-top: -3px; /* Offset to center the thumb */
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  background: var(--track-color, #93a1a1);
+  border-radius: 2px;
+}
+
+/* Firefox styles */
+input[type="range"]::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  border: none;
+  border-radius: 50%;
+  background: var(--thumb-color, #586e75);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  background: var(--track-color, #93a1a1);
+  border-radius: 2px;
+}
+
+/* 主题切换：只作用于主壳层，避免 html * 整页过渡导致掉帧；不含 transform/filter，减少与 Framer Motion 等冲突 */
+.theme-transition .theme-color-scope,
+.theme-transition .theme-color-scope * {
+  transition-property: color, background-color, border-color, fill, stroke,
+    opacity, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 400ms;
+}
+
+/* Volume slider specific styles */
+.volume-slider {
+  height: 2px !important;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  width: 8px !important;
+  height: 8px !important;
+  margin-top: -3px !important;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  height: 2px !important;
+}
+
+.volume-slider::-moz-range-track {
+  height: 2px !important;
+}
+
+/* 歌词动画效果 */
+@keyframes pulse {
+  0% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.lyric-gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+  background-image: linear-gradient(90deg, #268bd2, #2aa198, #268bd2);
+  background-size: 200% auto;
+  animation: gradient-shift 3s linear infinite;
+}
+
+/* 确保歌词容器中的滚动行为受控 */
+.overscroll-behavior-y-contain {
+  overscroll-behavior-y: contain;
+}
+
+.touch-action-pan-y {
+  touch-action: pan-y;
+}
+
+.overscroll-none {
+  overscroll-behavior: none;
+}

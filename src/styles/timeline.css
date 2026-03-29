@@ -1,0 +1,117 @@
+/* Timeline Base Styles */
+.vertical-timeline {
+  width: 100%;
+  max-width: 1170px;
+  margin: 0 auto;
+  position: relative;
+  padding: 1.5rem 0;
+}
+
+.vertical-timeline::before {
+  width: 3px;
+}
+
+/* Timeline Element Base */
+.vertical-timeline-element {
+  margin: 3rem 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.vertical-timeline-element-content {
+  box-shadow: 0 3px 0 #ddd;
+  transition: all 0.3s ease-in-out;
+}
+
+.vertical-timeline-element-content-arrow {
+  transition: all 0.3s ease-in-out;
+}
+
+.vertical-timeline-element-icon {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Timeline Date Styles */
+.vertical-timeline-element-date {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Desktop Timeline Styles */
+@media screen and (min-width: 1170px) {
+  .vertical-timeline-element-date {
+    position: absolute;
+    width: 100%;
+    top: 6px;
+    font-size: 1rem;
+  }
+
+  .vertical-timeline--two-columns .vertical-timeline-element-content .vertical-timeline-element-date {
+    position: absolute;
+    width: 100%;
+    /* adjust the right date position to the right */
+    left: 130%;
+  }
+
+  .vertical-timeline--two-columns .vertical-timeline-element.vertical-timeline-element--right .vertical-timeline-element-content .vertical-timeline-element-date,
+  .vertical-timeline--two-columns .vertical-timeline-element:nth-child(even):not(.vertical-timeline-element--left) .vertical-timeline-element-content .vertical-timeline-element-date {
+    left: auto;
+    /* adjust the left date position to the left */
+    right: 130%;
+    text-align: right;
+  }
+}
+
+/* Mobile Timeline Styles */
+@media screen and (max-width: 1169px) {
+  .vertical-timeline::before {
+    left: 18px;
+  }
+
+  .vertical-timeline-element-icon {
+    width: 40px;
+    height: 40px;
+    left: 0;
+    margin-left: 0;
+    top: 0;
+    margin-top: 0;
+    transform: none;
+  }
+
+  .vertical-timeline-element-content {
+    margin-left: 60px;
+    padding: 1em;
+  }
+
+  .vertical-timeline-element-date {
+    display: block;
+    float: none;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+    font-size: 0.875rem;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+  }
+}
+
+/* Timeline Hover Effects */
+.timeline-item-wrapper {
+  position: relative;
+}
+
+.timeline-hovered .vertical-timeline-element-content {
+  transform: translateY(-2px);
+}
+
+/* Custom Timeline Spacing */
+.vertical-timeline-custom {
+  width: 100%;
+  max-width: 1170px;
+  margin: 0 auto;
+  position: relative;
+  padding: 1.5rem 0;
+}
+
+.vertical-timeline-custom .vertical-timeline-element {
+  margin: 3rem 0;
+} 

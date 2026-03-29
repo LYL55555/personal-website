@@ -1,0 +1,26 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+  touch-action: manipulation; /* 优化触摸体验 */
+}
+
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-bottom: 20px;
+  }
+} 
