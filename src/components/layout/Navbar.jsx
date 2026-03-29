@@ -25,10 +25,6 @@ const navLinks = [
     title: "Hobbies",
     path: "/hobbies",
   },
-  {
-    title: "Game",
-    path: "/game",
-  },
 ];
 
 const Navbar = () => {

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240" role="img" aria-label="Snake game thumbnail">
-  <rect width="400" height="240" fill="#002b36"/>
-  <rect x="32" y="32" width="336" height="176" rx="8" fill="#073642" stroke="#586e75" stroke-width="2"/>
-  <rect x="56" y="56" width="18" height="18" rx="2" fill="#2aa198"/>
-  <rect x="78" y="56" width="18" height="18" rx="2" fill="#2aa198"/>
-  <rect x="100" y="56" width="18" height="18" rx="2" fill="#2aa198"/>
-  <rect x="122" y="78" width="18" height="18" rx="2" fill="#cb4b16"/>
-</svg>
