@@ -1,6 +1,6 @@
 # Portfolio Website Template
 
-Next.js 14 (App Router) and Tailwind CSS portfolio starter. Placeholder content uses **Usagi** (うさぎ) as a nod to *Chiikawa* (ちいかわ) by Nagano — not an official tie-in. Fictional labels (e.g. **Carrot Valley Institute**) are intentional so you can fork without exposing real details.
+Next.js 14 (App Router) and Tailwind CSS portfolio starter. Placeholder content uses **Usagi** (うさぎ) as a nod to _Chiikawa_ (ちいかわ) by Nagano — not an official tie-in. Fictional labels (e.g. **Carrot Valley Institute**) are intentional so you can fork without exposing real details.
 
 ## Scope
 
@@ -8,16 +8,16 @@ The project structure aligns with common beginner portfolio tutorials (e.g. [thi
 
 ### Capabilities
 
-- **UI** — Solarized-inspired light/dark theme, refined layout and typography, custom cursor assets (`public/usagi_cursor/`, `src/styles/cursor.css`).
-- **Hero** — Interactive **GLB** character via React Three Fiber / Drei (mouse-driven motion, optional hover audio).
-- **Experience** — Vertical **timeline** with expandable entries (`src/data/timelineItems.js`).
-- **Draggable panels** — Hobby-style windows using `react-draggable`; reusable for galleries or other floating content.
-- **Music** — NetEase-backed player (`/api/netease/*`): playlists, playback URLs, lyrics, quality handling, artwork; state persists across client-side navigation.
-- **Contact** — Form with Google reCAPTCHA v2; email delivery documented for EmailJS or a server route.
-- **Content** — Data-driven education, projects, certifications/awards, and related sections (see customization list).
-- **Tooling** — Dynamic imports for heavier sections, optional webpack bundle analyzer (`ANALYZE=true`).
+- 🎨 **UI** — Solarized-inspired light/dark theme, refined layout and typography, custom cursor assets (`public/usagi_cursor/`, `src/styles/cursor.css`).
+- 🐰 **Hero** — Interactive **GLB** character via React Three Fiber / Drei (mouse-driven motion, optional hover audio).
+- 📌 **Experience** — Vertical **timeline** with expandable entries (`src/data/timelineItems.js`).
+- 🪟 **Draggable panels** — Hobby-style windows using `react-draggable`; reusable for galleries or other floating content.
+- 🎵 **Music** — NetEase-backed player (`/api/netease/*`): playlists, playback URLs, lyrics, quality handling, artwork; state persists across client-side navigation.
+- ✉️ **Contact** — Form with Google reCAPTCHA v2; email delivery documented for EmailJS or a server route.
+- 📚 **Content** — Data-driven education, projects, certifications/awards, and related sections (see customization list).
+- 🛠️ **Tooling** — Dynamic imports for heavier sections, optional webpack bundle analyzer (`ANALYZE=true`).
 
-**Documentation:** [Template setup](docs/TEMPLATE_SETUP.md) (env, email, NetEase, compliance) · [3D model](docs/3D_MODEL.md) · [Music player notes](docs/MUSIC_PLAYER.md).
+📖 **Documentation:** [Template setup](docs/TEMPLATE_SETUP.md) (env, email, NetEase, compliance) · [3D model](docs/3D_MODEL.md) · [Music player notes](docs/MUSIC_PLAYER.md).
 
 ## What to customize first
 
@@ -91,4 +91,4 @@ Layout patterns derive from common Next.js portfolio tutorials. [LICENSE](LICENS
 
 ### Theme and IP
 
-- *Chiikawa* / Usagi theming is **non-commercial placeholder** only. For a public site, replace assets and copy with your own branding and ensure you have rights to any third-party IP you retain.
+- _Chiikawa_ / Usagi theming is **non-commercial placeholder** only. For a public site, replace assets and copy with your own branding and ensure you have rights to any third-party IP you retain.
