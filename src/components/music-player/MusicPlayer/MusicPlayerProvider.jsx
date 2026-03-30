@@ -1,9 +1,7 @@
 "use client";
-import React from "react";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { parseBlob } from "music-metadata";
 import { SiNeteasecloudmusic } from "react-icons/si";
 import { MdQueueMusic, MdLyrics } from "react-icons/md";
 import { CiMaximize1, CiMinimize1 } from "react-icons/ci";
@@ -13,7 +11,6 @@ import ProgressControl from "./ProgressControl";
 import LoadingState from "./LoadingState";
 import { formatTime, getVolumeIcon } from "./utils";
 import { useMusicSource } from "./hooks/useMusicSource";
-import { usePlaylistCache } from "./hooks/usePlaylistCache";
 import { NeteaseMusicSource } from "./services/NeteaseMusicSource";
 import PlaylistView from "./PlaylistView";
 import { useAudioPreload } from "./hooks/useAudioPreload";
@@ -41,7 +38,6 @@ export function MusicPlayerProvider({ children }) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
   const [showLyrics, setShowLyrics] = useState(false);
-  const [preloadedTracks, setPreloadedTracks] = useState(new Set());
   const [isMinimized, setIsMinimized] = useState(false);
   const [minimizedHydrated, setMinimizedHydrated] = useState(false);
 
@@ -425,7 +421,7 @@ export function MusicPlayerProvider({ children }) {
         setIsMinimized(true);
       }
     } catch {
-      /* ignore */
+      void 0;
     }
     setMinimizedHydrated(true);
   }, []);
@@ -438,7 +434,7 @@ export function MusicPlayerProvider({ children }) {
         isMinimized ? "1" : "0",
       );
     } catch {
-      /* ignore */
+      void 0;
     }
   }, [isMinimized, minimizedHydrated]);
 

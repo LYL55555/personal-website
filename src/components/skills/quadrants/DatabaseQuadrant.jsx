@@ -158,7 +158,7 @@ export function DatabaseQuadrant({ isDarkMode }) {
           newPositions,
           DATABASE_SKILLS,
           i,
-          MIN_DISTANCE
+          MIN_DISTANCE,
         );
         attempts++;
       }
@@ -167,7 +167,7 @@ export function DatabaseQuadrant({ isDarkMode }) {
         position || {
           radius: DATABASE_SKILLS[i].minRadius,
           rotation: DATABASE_SKILLS[i].minAngle,
-        }
+        },
       );
     }
 

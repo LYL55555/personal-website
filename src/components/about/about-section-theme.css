@@ -1,0 +1,56 @@
+.light-theme {
+  --color-primary: #2075c7;
+  --color-secondary: #6236ff;
+  --color-accent: #e05252;
+  --color-text: #24292f;
+  --color-muted: #57606a;
+  --color-bg: #f6f8fa;
+  --color-card-bg: #eee8d5;
+  --color-border: #d0d7de;
+  --color-divider: #d8dee4;
+  --shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme {
+  --color-primary: #58a6ff;
+  --color-secondary: #d2a8ff;
+  --color-accent: #ff7b72;
+  --color-text: #e6edf3;
+  --color-muted: #8b949e;
+  --color-bg: #0d1117;
+  --color-card-bg: #161b22;
+  --color-border: #30363d;
+  --color-divider: #30363d;
+  --shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+}
+
+.theme-text {
+  color: var(--color-text);
+}
+.theme-primary {
+  color: var(--color-primary);
+}
+.theme-secondary {
+  color: var(--color-secondary);
+}
+.theme-accent {
+  color: var(--color-accent);
+}
+.theme-muted {
+  color: var(--color-muted);
+}
+.theme-bg {
+  background-color: var(--color-bg);
+}
+.theme-card {
+  background-color: var(--color-card-bg);
+}
+.theme-border {
+  border-color: var(--color-border);
+}
+.theme-divider {
+  background-color: var(--color-divider);
+}
+.theme-shadow {
+  box-shadow: var(--shadow);
+}
