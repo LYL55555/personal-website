@@ -11,13 +11,11 @@ function SkillCircle() {
   const { isDarkMode } = useTheme();
   const [windowWidth, setWindowWidth] = useState(0);
 
-  // Track viewport width
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
     
-    // Initial measure
     if (typeof window !== 'undefined') {
       setWindowWidth(window.innerWidth);
       window.addEventListener('resize', handleResize);
@@ -30,7 +28,6 @@ function SkillCircle() {
     };
   }, []);
 
-  // Derive ring size from breakpoint
   const containerHeight = windowWidth < 480 ? 500 : windowWidth < 768 ? 550 : 600;
   const circleRadiuses = windowWidth < 480 
     ? [60, 90, 120] 
@@ -40,7 +37,6 @@ function SkillCircle() {
 
   return (
     <div className="relative w-full h-[500px] xs:h-[550px] md:h-[600px] flex items-center justify-center px-4 sm:px-8 md:px-16 py-8 sm:py-12 overflow-hidden">
-      {/* Background ring */}
       {circleRadiuses.map((radius, index) => (
         <motion.div
           key={radius}
@@ -59,7 +55,6 @@ function SkillCircle() {
         />
       ))}
 
-      {/* Quadrant dividers */}
       <motion.div
         className={`absolute w-[90%] h-[1px] ${
           isDarkMode
@@ -81,7 +76,6 @@ function SkillCircle() {
         transition={{ duration: 1 }}
       />
 
-      {/* Diagonals */}
       <motion.div
         className={`absolute w-[0.5px] h-[90%] origin-center rotate-45 ${
           isDarkMode
@@ -103,7 +97,6 @@ function SkillCircle() {
         transition={{ duration: 1, delay: 0.5 }}
       />
 
-      {/* Center dot */}
       <motion.div
         className={`absolute w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full ${
           isDarkMode
@@ -115,13 +108,11 @@ function SkillCircle() {
         transition={{ duration: 0.5, delay: 1.2 }}
       />
 
-      {/* Quadrant panels */}
       <FrontendQuadrant isDarkMode={isDarkMode} />
       <BackendQuadrant isDarkMode={isDarkMode} />
       <DatabaseQuadrant isDarkMode={isDarkMode} />
       <DevopsQuadrant isDarkMode={isDarkMode} />
 
-      {/* Category labels (mobile-tuned) */}
       <motion.div
         className={`absolute bottom-2 xs:bottom-0 left-2 xs:left-0 text-xs xs:text-sm font-medium ${
           isDarkMode ? "text-solarized-base1" : "text-solarized-base01"

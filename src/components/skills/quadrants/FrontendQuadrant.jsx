@@ -3,12 +3,10 @@ import { motion } from "framer-motion";
 import * as SiIcons from "react-icons/si";
 import { useEffect, useState } from "react";
 
-// Euclidean distance between two points
 function calculateDistance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-// Sample a new random position
 function generatePosition(minRadius, maxRadius, minAngle, maxAngle) {
   const radius = Math.random() * (maxRadius - minRadius) + minRadius;
   const rotation = Math.random() * (maxAngle - minAngle) + minAngle;
@@ -29,7 +27,6 @@ const SkillItem = ({ skill, isDarkMode, position, index }) => {
         : skill.lightColor
       : skill.color;
 
-  // Responsive class sizing
   const itemSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 50 : 60;
   const iconSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 20 : 24;
 
@@ -146,7 +143,6 @@ const MIN_DISTANCE = 65;
 
 export function FrontendQuadrant({ isDarkMode }) {
   const [positions, setPositions] = useState([]);
-  // Responsive geometry
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 480;
   const isTablet = typeof window !== 'undefined' && window.innerWidth >= 480 && window.innerWidth < 768;
   
@@ -166,13 +162,10 @@ export function FrontendQuadrant({ isDarkMode }) {
         let position;
 
         while (attempts < maxAttempts) {
-          // Random angle inside top-left quadrant
           let newAngle = MIN_ANGLE + Math.random() * (MAX_ANGLE - MIN_ANGLE);
-          // Random radius between min and max
           let newRadius =
             MIN_RADIUS + Math.random() * (MAX_RADIUS - MIN_RADIUS);
 
-          // Reject if too close to existing bubbles
           let tooClose = false;
           for (const pos of calculatedPositions) {
             const angleDiff = Math.abs(pos.rotation - newAngle);
@@ -194,7 +187,6 @@ export function FrontendQuadrant({ isDarkMode }) {
           attempts++;
         }
 
-        // Fallback grid slot if no free spot
         if (!position) {
           position = {
             radius: Math.min(

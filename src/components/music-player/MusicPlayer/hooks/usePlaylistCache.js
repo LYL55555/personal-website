@@ -6,7 +6,6 @@ const CACHE_EXPIRY = 1000 * 60 * 60; // 1 hour
 export const usePlaylistCache = (playlistId) => {
   const [cachedData, setCachedData] = useState(null);
 
-  // Load cache on mount
   useEffect(() => {
     const loadCache = () => {
       try {

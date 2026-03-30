@@ -1,6 +1,5 @@
 "use client";
 
-/** NetEase (and future sources) only — no local /public/music pipeline. */
 export class MusicSourceManager {
   constructor() {
     this.sources = {};

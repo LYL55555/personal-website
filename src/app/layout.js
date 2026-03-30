@@ -12,7 +12,6 @@ export const metadata = {
     "Next.js portfolio starter. Placeholder persona: Usagi (うさぎ) from Chiikawa (ちいかわ) — replace with your own content.",
 };
 
-// Prevent flash of unstyled content while theme is applied
 const noFlashStyle = `
   .no-flash {
     visibility: hidden;

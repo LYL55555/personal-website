@@ -10,10 +10,8 @@ const DraggableWindow = React.memo(
     const { isDarkMode } = useTheme();
     const [windowSize, setWindowSize] = useState({ width: 300, height: 'auto' });
 
-    // Responsive default width
     useEffect(() => {
       const updateSize = () => {
-        // Tighter widths on small screens so more tiles fit
         let width = 300;
         if (window.innerWidth < 768) {
           width = 240;
@@ -36,7 +34,6 @@ const DraggableWindow = React.memo(
         bounds={bounds}
         nodeRef={nodeRef}
         onStart={(e) => {
-          // Drag from header only
           const target = e.target;
           const isHeader = target.closest('[data-handle="true"]');
           if (!isHeader) {
@@ -68,7 +65,6 @@ const DraggableWindow = React.memo(
             height: windowSize.height
           }}
         >
-          {/* Title bar (data-handle enables drag) */}
           <div
             data-handle="true"
             className={`
@@ -95,7 +91,6 @@ const DraggableWindow = React.memo(
             </button>
           </div>
 
-          {/* Body */}
           <div className="p-2 sm:p-3">{children}</div>
         </div>
       </Draggable>

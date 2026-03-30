@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Three.js canvas styles */
 canvas {
   touch-action: none;
   outline: none;
@@ -11,7 +10,6 @@ canvas {
   height: 100% !important;
 }
 
-/* Custom Scrollbar Styles */
 .scrollbar-dark::-webkit-scrollbar {
   width: 6px;
 }
@@ -46,7 +44,6 @@ canvas {
   background: #586e75;
 }
 
-/* Three.js canvas fills its wrapper */
 .three-container {
   width: 100%;
   height: 100%;
@@ -54,13 +51,11 @@ canvas {
   overflow: hidden;
 }
 
-/* Disable text selection on canvas subtree */
 .three-container * {
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* Circular hero model wrapper */
 .hero-model-container {
   position: relative;
   width: 100%;
@@ -97,7 +92,6 @@ canvas {
   }
 }
 
-/* Page bg/text come from layout shell (Solarized); avoid clashing with #fdf6e3 / #002b36 */
 body {
   min-height: 100vh;
   color: inherit;
@@ -118,22 +112,19 @@ body {
   white-space: nowrap;
   animation: marquee 15s linear infinite;
   will-change: transform;
-  padding-right: 50px; /* Add space between the repeated text */
+  padding-right: 50px;
 }
 
-/* Add hover state to pause animation */
 .animate-marquee:hover {
   animation-play-state: paused;
 }
 
-/* Custom range input styles */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   background: transparent;
 }
 
-/* Webkit (Chrome, Safari) styles */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -142,7 +133,7 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 50%;
   background: var(--thumb-color, #586e75);
   cursor: pointer;
-  margin-top: -3px; /* Offset to center the thumb */
+  margin-top: -3px;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
@@ -152,7 +143,6 @@ input[type="range"]::-webkit-slider-runnable-track {
   border-radius: 2px;
 }
 
-/* Firefox styles */
 input[type="range"]::-moz-range-thumb {
   width: 8px;
   height: 8px;
@@ -169,7 +159,6 @@ input[type="range"]::-moz-range-track {
   border-radius: 2px;
 }
 
-/* Theme transition: scoped to shell; skip buttons/links/form controls to avoid stacked color tweens */
 .theme-transition .theme-color-scope,
 .theme-transition
   .theme-color-scope
@@ -182,7 +171,6 @@ input[type="range"]::-moz-range-track {
   transition-duration: 400ms;
 }
 
-/* Volume slider specific styles */
 .volume-slider {
   height: 2px !important;
 }
@@ -206,7 +194,6 @@ input[type="range"]::-moz-range-track {
   height: 2px !important;
 }
 
-/* Lyric highlight animation */
 @keyframes pulse {
   0% {
     opacity: 0.9;
@@ -240,7 +227,6 @@ input[type="range"]::-moz-range-track {
   animation: gradient-shift 3s linear infinite;
 }
 
-/* Contain lyric list overscroll */
 .overscroll-behavior-y-contain {
   overscroll-behavior-y: contain;
 }

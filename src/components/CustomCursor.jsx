@@ -9,7 +9,7 @@ import {
 import { usePathname } from "next/navigation";
 import "../styles/cursor.css";
 
-/** Preserve pointer position across routes/remounts (avoid reset to 0,0 after navigation) */
+/** Keep cursor position across routes/remounts (avoid 0,0 reset). */
 let lastPointerClient = { x: 0, y: 0 };
 
 const CustomCursor = () => {
@@ -18,18 +18,14 @@ const CustomCursor = () => {
   const [cursorType, setCursorType] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
-  // Use useCallback to optimize event handler
   const updatePosition = useCallback((e) => {
-    // Use requestAnimationFrame to optimize rendering performance
     requestAnimationFrame(() => {
       const { clientX, clientY } = e;
       lastPointerClient = { x: clientX, y: clientY };
       setPosition(lastPointerClient);
 
-      // Check element type under cursor and set appropriate cursor style
       const target = e.target;
 
-      // Optimize condition checks with more concise approach
       if (
         target.matches('a, button, [role="button"]') ||
         target.closest('a, button, [role="button"]')
@@ -37,7 +33,7 @@ const CustomCursor = () => {
         setCursorType("link");
       } else if (
         target.matches(
-          "input, textarea, [contenteditable], p, h1, h2, h3, h4, h5, h6, span"
+          "input, textarea, [contenteditable], p, h1, h2, h3, h4, h5, h6, span",
         )
       ) {
         setCursorType("text");
@@ -51,19 +47,14 @@ const CustomCursor = () => {
     });
   }, []);
 
-  // Handle mouse visibility
   const handleMouseEnter = useCallback(() => setIsVisible(true), []);
   const handleMouseLeave = useCallback(() => setIsVisible(false), []);
 
   useEffect(() => {
-    // Add mouse enter/leave handling
-
-    // Performance optimization: only update position when mouse moves
     window.addEventListener("mousemove", updatePosition, { passive: true });
     document.addEventListener("mouseenter", handleMouseEnter);
     document.addEventListener("mouseleave", handleMouseLeave);
 
-    // Ensure initial visibility if mouse is already on page
     if (typeof document !== "undefined" && document.hasFocus()) {
       setIsVisible(true);
     }
@@ -93,5 +84,4 @@ const CustomCursor = () => {
   );
 };
 
-// Memoize component to prevent unnecessary re-renders
 export default memo(CustomCursor);

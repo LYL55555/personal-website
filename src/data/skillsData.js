@@ -34,7 +34,6 @@ import {
 import { FaJava } from "react-icons/fa";
 import { VscCode } from "react-icons/vsc";
 
-// Distribution configuration for each quadrant
 const QUADRANT_CONFIG = {
   BACKEND: {
     startAngle: -85,
@@ -78,23 +77,19 @@ const QUADRANT_CONFIG = {
   },
 };
 
-// Utility function to calculate distribution
 const calculateDistribution = (items, quadrantType) => {
   const config = QUADRANT_CONFIG[quadrantType];
   const totalItems = items.length;
 
   return items.map((item, index) => {
-    // Calculate base values
-    const progress = index / (totalItems - 1); // 0 to 1
+    const progress = index / (totalItems - 1);
     const baseAngle =
       config.startAngle + (config.endAngle - config.startAngle) * progress;
 
-    // Calculate radius with a cyclic pattern
-    const radiusCycle = index % 3; // 0, 1, 2 pattern
+    const radiusCycle = index % 3;
     const baseRadius =
       config.baseRadiusStart + config.radiusIncrement * radiusCycle;
 
-    // Calculate offsets based on radius tier
     const radiusTier = Math.floor(
       (baseRadius - config.baseRadiusStart) / config.radiusIncrement
     );
@@ -287,7 +282,6 @@ const DEVOPS_ITEMS = [
   },
 ];
 
-// Export the distributed skills
 export const BACKEND_SKILLS = calculateDistribution(BACKEND_ITEMS, "BACKEND");
 export const FRONTEND_SKILLS = calculateDistribution(
   FRONTEND_ITEMS,

@@ -19,7 +19,6 @@ const ProgressControl = ({
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const timeoutRef = useRef(null);
 
-  // Check if text overflows
   useEffect(() => {
     const checkOverflow = () => {
       const element = titleRef.current;
@@ -27,12 +26,10 @@ const ProgressControl = ({
         const isTextOverflow = element.scrollWidth > element.clientWidth;
         setIsOverflow(isTextOverflow);
 
-        // Clear previous timeout
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         }
 
-        // If text overflows, start animation after 3 seconds
         if (isTextOverflow) {
           timeoutRef.current = setTimeout(() => {
             setShouldAnimate(true);
@@ -43,22 +40,18 @@ const ProgressControl = ({
       }
     };
 
-    // Initial check
-    setTimeout(checkOverflow, 100); // Small delay to ensure component is fully rendered
+    setTimeout(checkOverflow, 100);
 
-    // Add window resize listener
     window.addEventListener("resize", checkOverflow);
 
     return () => {
       window.removeEventListener("resize", checkOverflow);
-      // Clear timeout
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [title, artist]); // Re-check when title or artist changes
+  }, [title, artist]);
 
-  // Calculate slider thumb position for proper styling
   const getThumbPosition = () => {
     if (duration === 0) return "0%";
     const percentage = (currentTime / duration) * 100;
@@ -67,7 +60,6 @@ const ProgressControl = ({
 
   return (
     <div className="flex-1 min-w-0 w-full md:min-w-[200px] order-2 md:order-none">
-      {/* Title with marquee animation */}
       <div
         className={`text-sm md:text-sm font-medium mb-0.5 text-center md:text-left relative overflow-hidden ${
           isDarkMode ? "text-solarized-base1" : "text-solarized-base01"
@@ -80,9 +72,7 @@ const ProgressControl = ({
           }`}
           style={{
             paddingRight: isOverflow ? "50px" : "0",
-            // Force hardware acceleration
             transform: "translateZ(0)",
-            // Add additional padding only if animating
             ...(shouldAnimate && {
               paddingRight: "50px",
               animation: "marquee 15s linear infinite",
@@ -93,7 +83,6 @@ const ProgressControl = ({
         </div>
       </div>
 
-      {/* Artist information */}
       <div
         className={`text-xs mb-1 text-center md:text-left whitespace-nowrap overflow-hidden ${
           isDarkMode ? "text-solarized-base0" : "text-solarized-base00"
@@ -102,7 +91,6 @@ const ProgressControl = ({
         {artist || "Unknown Artist"}
       </div>
 
-      {/* Time control slider */}
       <div className="flex items-center space-x-1 md:space-x-2">
         <span
           className={`text-[10px] md:text-xs ${
@@ -140,7 +128,6 @@ const ProgressControl = ({
         </span>
       </div>
 
-      {/* Volume control */}
       <div className="hidden md:flex items-center justify-center space-x-1.5 mt-1.5">
         <button
           onClick={() =>

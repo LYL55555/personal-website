@@ -9,7 +9,6 @@ import { BACKEND_SKILLS } from "@/data/skillsData";
 export function BackendQuadrant({ isDarkMode }) {
   const [positions, setPositions] = useState([]);
   
-  // Responsive geometry
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 480;
   const isTablet = typeof window !== 'undefined' && window.innerWidth >= 480 && window.innerWidth < 768;
   
@@ -29,13 +28,10 @@ export function BackendQuadrant({ isDarkMode }) {
         let position;
 
         while (attempts < maxAttempts) {
-          // Random angle inside top-right quadrant
           let newAngle = MIN_ANGLE + Math.random() * (MAX_ANGLE - MIN_ANGLE);
-          // Random radius between min and max
           let newRadius =
             MIN_RADIUS + Math.random() * (MAX_RADIUS - MIN_RADIUS);
 
-          // Reject if too close to existing bubbles
           let tooClose = false;
           for (const pos of calculatedPositions) {
             const angleDiff = Math.abs(pos.rotation - newAngle);
@@ -57,7 +53,6 @@ export function BackendQuadrant({ isDarkMode }) {
           attempts++;
         }
 
-        // Fallback grid slot if no free spot
         if (!position) {
           position = {
             radius: Math.min(
@@ -109,7 +104,6 @@ function SkillItem({ skill, isDarkMode, position, index }) {
   const x = Math.cos((position.rotation * Math.PI) / 180) * position.radius;
   const y = Math.sin((position.rotation * Math.PI) / 180) * position.radius;
 
-  // Responsive class sizing
   const itemSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 50 : 60;
   const iconSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 20 : 24;
 

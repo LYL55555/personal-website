@@ -3,12 +3,10 @@ import { motion } from "framer-motion";
 import * as Si from "react-icons/si";
 import { useEffect, useState, useMemo, useCallback } from "react";
 
-// Euclidean distance between two points
 const calculateDistance = (x1, y1, x2, y2) => {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 };
 
-// Sample a new random position
 const generatePosition = (skill) => {
   const radius =
     Math.random() * (skill.maxRadius - skill.minRadius) + skill.minRadius;
@@ -17,7 +15,6 @@ const generatePosition = (skill) => {
   return { radius, rotation };
 };
 
-// Whether a candidate lies inside the quadrant annulus
 const isValidPosition = (position, positions, skills, index, minDistance) => {
   const x1 = Math.cos((position.rotation * Math.PI) / 180) * position.radius;
   const y1 = Math.sin((position.rotation * Math.PI) / 180) * position.radius;

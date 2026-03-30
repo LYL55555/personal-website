@@ -2,7 +2,6 @@
 
 import { MusicSourceInterface } from "./MusicSourceInterface";
 
-/** Dedupe song/detail per track in-session (Strict Mode / effect re-runs). */
 const METADATA_TTL_MS = 1000 * 60 * 30;
 const metadataCache = new Map();
 const metadataInflight = new Map();
@@ -14,7 +13,7 @@ export class NeteaseMusicSource extends MusicSourceInterface {
   constructor(playlistId = DEFAULT_PLAYLIST) {
     super();
     this.playlistId = playlistId;
-    this.apiBaseUrl = "/api/netease"; // App route prefix for Netease proxy
+    this.apiBaseUrl = "/api/netease";
   }
 
   setPlaylistId(playlistId) {
@@ -29,7 +28,6 @@ export class NeteaseMusicSource extends MusicSourceInterface {
       if (!response.ok) throw new Error("Failed to fetch Netease playlist");
       const data = await response.json();
 
-      // Normalize varied Netease / third-party response shapes
       let tracks = [];
 
       if (data.result && Array.isArray(data.result.tracks)) {
@@ -160,9 +158,6 @@ export class NeteaseMusicSource extends MusicSourceInterface {
     return task;
   }
 
-  /**
-   * song/url returns a same-origin proxied stream (not JSON); path is for <audio> src only.
-   */
   async getAudioUrl(trackId, level = "lite") {
     const id = encodeURIComponent(trackId);
     const q = level ? `&level=${encodeURIComponent(level)}` : "";

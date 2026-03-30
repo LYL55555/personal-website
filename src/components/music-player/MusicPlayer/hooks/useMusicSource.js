@@ -113,7 +113,7 @@ export const useMusicSource = () => {
         return newPlaylist;
       });
     } catch {
-      // Silent fail for background refresh
+      return;
     }
   };
 
@@ -132,7 +132,6 @@ export const useMusicSource = () => {
       const url = await source.getAudioUrl(trackId);
       return url;
     } catch (err) {
-      // On error, fall back to direct stream URL
       return `https://music.163.com/song/media/outer/url?id=${trackId}.mp3`;
     }
   };

@@ -5,8 +5,8 @@
   overflow: hidden;
   background-color: var(--background-color);
   transition: background-color 0.3s ease;
-  -webkit-tap-highlight-color: transparent; /* Remove mobile tap flash */
-  touch-action: manipulation; /* Snappier scrolling on touch */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 @media (max-width: 768px) {

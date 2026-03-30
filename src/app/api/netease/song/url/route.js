@@ -7,7 +7,6 @@ import {
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
-/** Netease http:80 CDN is flaky from some networks; prefer https */
 function normalizeNeteaseCdnUrl(url) {
   if (!url || typeof url !== "string") return url;
   try {
@@ -76,10 +75,6 @@ async function resolvePlayableUrl(ncm, id, br, opts) {
   }
 }
 
-/**
- * GET /api/netease/song/url?id=...&level=lite|standard|higher|...
- * Uses local NeteaseCloudMusicApi (no deprecated 402 public proxy).
- */
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
@@ -106,7 +101,6 @@ export async function GET(request) {
     if (proxied) return proxied;
   }
 
-  // If server-side CDN fetch fails, redirect so the browser can try (often better reachability)
   if (lastNormalizedUrl) {
     return Response.redirect(lastNormalizedUrl, 302);
   }

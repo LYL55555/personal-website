@@ -4,9 +4,6 @@ const require = createRequire(import.meta.url);
 
 let ncmApi;
 
-/**
- * Lazy-load CommonJS NeteaseCloudMusicApi (keep out of client bundles).
- */
 export function getNeteaseApi() {
   if (!ncmApi) {
     ncmApi = require("NeteaseCloudMusicApi");
@@ -14,15 +11,11 @@ export function getNeteaseApi() {
   return ncmApi;
 }
 
-/**
- * Set NETEASE_COOKIE to a music.163.com cookie string to improve playable track rate.
- */
 export function neteaseRequestOptions() {
   const cookie = process.env.NETEASE_COOKIE;
   return cookie ? { cookie } : {};
 }
 
-/** Map frontend `level` query to NeteaseCloudMusicApi song_url `br`. */
 export function levelToBr(level) {
   switch (level) {
     case "lite":
@@ -42,7 +35,6 @@ export function levelToBr(level) {
   }
 }
 
-/** Ordered br fallbacks: start low, escalate on failure. */
 export function brCandidatesForLevel(level) {
   const hi = levelToBr("higher");
   switch (level) {

@@ -56,7 +56,6 @@ const EmailSection = () => {
       id="contact"
       className="flex flex-col items-center"
     >
-      {/* Intro copy */}
       <div className="w-full max-w-lg text-center">
         <p className={`text-sm sm:text-base mb-8 px-4 sm:px-0 transition-colors duration-300
                     ${isDarkMode ? 'text-solarized-base0' : 'text-solarized-base01'}`}>
@@ -66,7 +65,6 @@ const EmailSection = () => {
         </p>
       </div>
 
-      {/* Form */}
       <div className="w-full max-w-lg">
         {emailSubmitted ? (
           <p className="text-green-500 text-center text-sm mt-4">
@@ -74,7 +72,6 @@ const EmailSection = () => {
           </p>
         ) : (
           <form ref={form} onSubmit={sendEmail} className="flex flex-col space-y-4 sm:space-y-6">
-            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -96,7 +93,6 @@ const EmailSection = () => {
               />
             </div>
 
-            {/* Name */}
             <div>
               <label
                 htmlFor="name"
@@ -118,7 +114,6 @@ const EmailSection = () => {
               />
             </div>
 
-            {/* Subject */}
             <div>
               <label
                 htmlFor="subject"
@@ -140,7 +135,6 @@ const EmailSection = () => {
               />
             </div>
 
-            {/* Message */}
             <div>
               <label
                 htmlFor="message"
@@ -162,7 +156,6 @@ const EmailSection = () => {
               ></textarea>
             </div>
 
-            {/* reCAPTCHA */}
             <div className="flex justify-center items-center transform scale-90 sm:scale-100">
               {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
                 <ReCAPTCHA
@@ -187,7 +180,6 @@ const EmailSection = () => {
               )}
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={!isVerified}

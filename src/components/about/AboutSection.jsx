@@ -29,9 +29,7 @@ const AboutSection = () => {
       }`}
     >
       <div className="flex flex-col items-center justify-center w-full max-w-5xl">
-        {/* Content area - Image and text side by side */}
         <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 md:items-start">
-          {/* Image area */}
           <div className="md:col-span-4 flex justify-center md:justify-start md:sticky md:top-24 shrink-0">
             <div className="w-full max-w-[300px] relative rounded-xl overflow-hidden theme-shadow ring-1 ring-black/[0.06] dark:ring-white/10">
               <Image
@@ -46,7 +44,6 @@ const AboutSection = () => {
             </div>
           </div>
 
-          {/* Text area */}
           <div className="md:col-span-8 w-full min-w-0 max-w-3xl">
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4 sm:mb-5 theme-primary scroll-mt-24">
               About Me
@@ -113,10 +110,8 @@ const AboutSection = () => {
           </div>
         </div>
 
-        {/* Divider */}
         <div className="w-full h-px my-8 theme-divider"></div>
 
-        {/* Tab buttons */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-4 w-full">
           <TabButton
             selectTab={() => handleTabChange("experience")}
@@ -165,7 +160,6 @@ const AboutSection = () => {
           </TabButton>
         </div>
 
-        {/* Tab content with card style */}
         <motion.div
           className="mt-6 sm:mt-8 w-full p-4 sm:p-6 rounded-xl theme-card theme-shadow theme-border border"
           key={tab}
@@ -177,9 +171,7 @@ const AboutSection = () => {
         </motion.div>
       </div>
 
-      {/* Theme CSS variables for this section */}
       <style jsx global>{`
-        /* Light theme tokens */
         .light-theme {
           --color-primary: #2075c7;
           --color-secondary: #6236ff;
@@ -193,7 +185,6 @@ const AboutSection = () => {
           --shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* Dark theme tokens */
         .dark-theme {
           --color-primary: #58a6ff;
           --color-secondary: #d2a8ff;
@@ -207,7 +198,6 @@ const AboutSection = () => {
           --shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* Utility classes wired to CSS variables */
         .theme-text {
           color: var(--color-text);
         }

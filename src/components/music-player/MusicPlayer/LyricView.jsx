@@ -19,14 +19,11 @@ const LyricView = ({
   hasLyricCache,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
-  /** Blur strength in px (CSS filter); not the same as opacity */
   const [backgroundBlur, setBackgroundBlur] = useState(8);
-  /** Cover layer opacity; independent of the blur slider */
   const [backgroundOpacity, setBackgroundOpacity] = useState(1);
   const lyricsContainerRef = useRef(null);
   const viewRef = useRef(null);
 
-  // Click outside closes panel
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (viewRef.current && !viewRef.current.contains(event.target)) {
@@ -43,14 +40,12 @@ const LyricView = ({
     };
   }, [isVisible, onClose]);
 
-  // Preload lyrics when track changes
   useEffect(() => {
     if (currentTrackId) {
       preloadLyrics(currentTrackId);
     }
   }, [currentTrackId, preloadLyrics]);
 
-  // Sync active line with playback time
   useEffect(() => {
     if (!currentTrackId) return;
 
@@ -63,7 +58,6 @@ const LyricView = ({
     }
   }, [currentTime, currentTrackId, getLyrics, findLyricIndex, currentIndex]);
 
-  // Scroll so the active line sits near lineAnchorRatio
   useEffect(() => {
     if (currentIndex >= 0 && lyricsContainerRef.current) {
       const container = lyricsContainerRef.current;
@@ -75,12 +69,10 @@ const LyricView = ({
         const itemTop = currentItem.offsetTop;
         const itemHeight = currentItem.clientHeight;
 
-        // Anchor active line ~36% from top (not dead center)
         const lineAnchorRatio = 0.36;
         const targetScrollTop =
           itemTop - containerHeight * lineAnchorRatio + itemHeight / 2;
 
-        // Smooth scroll into view
         container.scrollTo({
           top: targetScrollTop,
           behavior: "smooth",
@@ -89,19 +81,16 @@ const LyricView = ({
     }
   }, [currentIndex]);
 
-  // Seek when a line is clicked
   const handleLyricClick = (time) => {
     if (onSeek && typeof onSeek === "function") {
       onSeek(time);
     }
   };
 
-  // Background blur slider
   const handleBlurChange = (e) => {
     setBackgroundBlur(parseInt(e.target.value, 10));
   };
 
-  // Cached lyrics for current track
   const { lyrics, translatedLyrics, songInfo } = currentTrackId
     ? getLyrics(currentTrackId)
     : { lyrics: [], translatedLyrics: [], songInfo: null };
@@ -109,7 +98,6 @@ const LyricView = ({
   const displayTitle = songInfo?.name ?? fallbackTitle ?? null;
   const displayArtist = songInfo?.artist ?? fallbackArtist ?? null;
 
-  // Spinner until first lyric payload
   const loading = lyricLoading && !hasLyricCache(currentTrackId);
 
   return (
@@ -130,7 +118,6 @@ const LyricView = ({
             pointerEvents: "auto",
           }}
         >
-          {/* Blurred cover background */}
           {albumCover && (
             <div
               className="absolute inset-0 bg-center bg-cover z-0"
@@ -138,12 +125,11 @@ const LyricView = ({
                 backgroundImage: `url(${albumCover})`,
                 filter: `blur(${backgroundBlur}px)`,
                 opacity: backgroundOpacity,
-                transform: "scale(1.1)", // Hide blur edge bleed
+                transform: "scale(1.1)",
               }}
             />
           )}
 
-          {/* Dim overlay for contrast */}
           <div
             className={`absolute inset-0 z-0 ${
               isDarkMode ? "bg-solarized-base03/28" : "bg-solarized-base3/28"
@@ -151,11 +137,10 @@ const LyricView = ({
           ></div>
 
           <div className="relative w-full h-full flex flex-col z-10">
-            {/* Header bar */}
             <div
               className={`sticky top-0 flex flex-wrap justify-between items-center p-3 z-10 backdrop-blur-sm ${
                 isDarkMode
-                  ? "bg-solarized-base03/30 text-solarized-base1" // Solarized dark header
+                  ? "bg-solarized-base03/30 text-solarized-base1"
                   : "bg-solarized-base3/30 text-solarized-base00"
               }`}
             >
@@ -198,7 +183,6 @@ const LyricView = ({
                 )}
               </div>
               <div className="flex items-center gap-3 flex-shrink-0">
-                {/* Blur control */}
                 <div className="flex items-center gap-3">
                   <div
                     className={`flex items-center gap-2 rounded-lg border px-2.5 py-2 bg-transparent ${
@@ -236,13 +220,12 @@ const LyricView = ({
                   </div>
                 </div>
 
-                {/* Close */}
                 <button
                   onClick={onClose}
                   className={`p-1 rounded-full hover:bg-opacity-20 transition-colors opacity-80 ${
                     isDarkMode
                       ? "text-solarized-base1 hover:bg-solarized-base01"
-                      : "hover:bg-solarized-base1" // Solarized dark hover
+                      : "hover:bg-solarized-base1"
                   }`}
                   aria-label="Close"
                 >
@@ -251,20 +234,18 @@ const LyricView = ({
               </div>
             </div>
 
-            {/* Loading */}
             {loading && (
               <div className="flex-1 flex items-center justify-center">
                 <div
                   className={`animate-spin w-8 h-8 border-2 rounded-full opacity-70 ${
                     isDarkMode
-                      ? "border-solarized-base01/60 border-t-solarized-cyan/80" // Solarized dark spinner
+                      ? "border-solarized-base01/60 border-t-solarized-cyan/80"
                       : "border-solarized-base1/50 border-t-solarized-blue/70"
                   }`}
                 ></div>
               </div>
             )}
 
-            {/* Lyric list */}
             {!loading && (
               <div
                 ref={lyricsContainerRef}
@@ -276,7 +257,7 @@ const LyricView = ({
                   <div className="flex items-center justify-center h-full">
                     <p
                       className={`text-sm opacity-70 ${
-                        isDarkMode ? "text-solarized-base1" : "text-solarized-base00" // Solarized palette
+                        isDarkMode ? "text-solarized-base1" : "text-solarized-base00"
                       }`}
                     >
                       No lyrics available
@@ -284,7 +265,6 @@ const LyricView = ({
                   </div>
                 ) : (
                   <div className="min-h-full flex flex-col items-center">
-                    {/* Top spacer + lineAnchorRatio keep active line off center */}
                     <div className="h-[22vh]"></div>
 
                     {lyrics.map((line, index) => (

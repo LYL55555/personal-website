@@ -1,4 +1,3 @@
-/* Custom cursor overlay — compact size */
 html {
   --cursor-size: 32px;
 }
@@ -27,7 +26,6 @@ html {
   transform: scale(1.15);
 }
 
-/* Default arrow — filenames are percent-encoded (UTF-8) for ASCII-only source */
 .custom-cursor {
   background-image: url("/usagi_cursor/%E6%AD%A3%E5%B8%B8%E9%80%89%E6%8B%A9.cur");
 }

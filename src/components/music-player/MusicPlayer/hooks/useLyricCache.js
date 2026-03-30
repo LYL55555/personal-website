@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-// Parse LRC lyrics (pure; stable for fetchLyrics callback identity)
 function parseLyric(lrc) {
   if (!lrc) return [];
 
@@ -54,10 +53,8 @@ export const useLyricCache = () => {
   }, [cache]);
 
   const [currentTrackId, setCurrentTrackId] = useState(null);
-  /** Per-track lyric fetch flag so preloading next track does not look like global panel loading */
   const [lyricPendingById, setLyricPendingById] = useState({});
 
-  // Use cacheRef for hits so fetchLyrics/preloadLyrics identities stay stable
   const fetchLyrics = useCallback(async (trackId) => {
     const id = lyricKey(trackId);
     if (!id) return { lyrics: [], translatedLyrics: [], songInfo: null };
@@ -87,8 +84,6 @@ export const useLyricCache = () => {
         }
       }
 
-      // Title/artist come from player fallback; avoids duplicate song/detail with extractMetadata
-
       setCache((prev) => {
         const next = { ...prev, [id]: result };
         cacheRef.current = next;
@@ -108,7 +103,6 @@ export const useLyricCache = () => {
     }
   }, []);
 
-  // Preload lyrics for a track id
   const preloadLyrics = useCallback(
     async (trackId) => {
       const id = lyricKey(trackId);
@@ -120,7 +114,6 @@ export const useLyricCache = () => {
     [fetchLyrics],
   );
 
-  // Read cached lyrics for a track
   const getLyrics = useCallback(
     (trackId) => {
       const id = lyricKey(trackId);
@@ -130,16 +123,13 @@ export const useLyricCache = () => {
     [cache],
   );
 
-  // Binary search: lyric index for current playback time
   const findLyricIndex = useCallback((lyrics, currentTime) => {
     if (!lyrics || !lyrics.length) return -1;
 
     if (currentTime < lyrics[0].time) return -1;
 
-    // Past last line: stick to last index
     if (currentTime >= lyrics[lyrics.length - 1].time) return lyrics.length - 1;
 
-    // Binary search active line
     let left = 0;
     let right = lyrics.length - 1;
 
@@ -148,7 +138,6 @@ export const useLyricCache = () => {
 
       if (mid === lyrics.length - 1) return mid;
 
-      // Line whose window contains currentTime
       if (
         currentTime >= lyrics[mid].time &&
         currentTime < lyrics[mid + 1].time
@@ -166,7 +155,6 @@ export const useLyricCache = () => {
     return -1;
   }, []);
 
-  // Drop one track or entire cache
   const clearCache = useCallback((trackId) => {
     const id = lyricKey(trackId);
     if (id) {

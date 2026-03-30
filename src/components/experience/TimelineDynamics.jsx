@@ -146,7 +146,6 @@ function TimelineDynamics() {
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Title block */}
             <div
               className={`p-5 flex flex-col items-center ${
                 isDarkMode ? "text-solarized-ghWash" : "text-solarized-ghInk"
@@ -175,14 +174,12 @@ function TimelineDynamics() {
                 {selectedMilestone.date}
               </h4>
 
-              {/* Divider */}
               <div
                 className={`w-full h-px my-4 ${
                   isDarkMode ? "bg-solarized-ghBorder" : "bg-[#d8dee4]"
                 }`}
               ></div>
 
-              {/* Body copy */}
               <div className="w-full">
                 <p
                   className={`text-sm ${
@@ -195,7 +192,6 @@ function TimelineDynamics() {
               </div>
             </div>
 
-            {/* Actions */}
             <div
               className={`p-4 ${
                 isDarkMode ? "bg-solarized-base02" : "bg-solarized-cardWash"

@@ -18,12 +18,10 @@ import { BiLogoVisualStudio } from "react-icons/bi";
 import { FaAws } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-// Euclidean distance between two points
 function calculateDistance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-// Sample a new random position
 function generatePosition(minRadius, maxRadius, minAngle, maxAngle) {
   const radius = Math.random() * (maxRadius - minRadius) + minRadius;
   const rotation = Math.random() * (maxAngle - minAngle) + minAngle;
@@ -232,13 +230,10 @@ export function DevopsQuadrant({ isDarkMode }) {
         let position;
 
         while (attempts < maxAttempts) {
-          // Random angle inside bottom-right quadrant
           let newAngle = MIN_ANGLE + Math.random() * (MAX_ANGLE - MIN_ANGLE);
-          // Random radius between min and max
           let newRadius =
             MIN_RADIUS + Math.random() * (MAX_RADIUS - MIN_RADIUS);
 
-          // Reject if too close to existing bubbles
           let tooClose = false;
           for (const pos of calculatedPositions) {
             const angleDiff = Math.abs(pos.rotation - newAngle);
@@ -260,7 +255,6 @@ export function DevopsQuadrant({ isDarkMode }) {
           attempts++;
         }
 
-        // Fallback grid slot if no free spot
         if (!position) {
           position = {
             radius: Math.min(

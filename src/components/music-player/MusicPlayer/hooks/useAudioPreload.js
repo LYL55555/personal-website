@@ -14,15 +14,12 @@ export const useAudioPreload = () => {
     try {
       setIsPreloading(true);
 
-      // New hidden audio element for preload
       const audioElement = new Audio();
       audioElement.preload = "auto";
       audioElement.src = `/api/netease/song/url?id=${trackId}&level=${audioQuality}`;
 
-      // Kick off fetch
       await audioElement.load();
 
-      // Remember preload target
       setPreloadTrack({
         id: trackId,
         audio: audioElement,
@@ -42,7 +39,6 @@ export const useAudioPreload = () => {
     setPreloadTrack(null);
   };
 
-  // Teardown on unmount
   useEffect(() => {
     return () => {
       clearPreload();

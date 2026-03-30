@@ -1,4 +1,3 @@
-/* Timeline Base Styles */
 .vertical-timeline {
   width: 100%;
   max-width: 1170px;
@@ -11,7 +10,6 @@
   width: 3px;
 }
 
-/* Timeline Element Base */
 .vertical-timeline-element {
   margin: 3rem 0;
   transition: all 0.3s ease-in-out;
@@ -30,12 +28,10 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Timeline Date Styles */
 .vertical-timeline-element-date {
   transition: all 0.3s ease-in-out;
 }
 
-/* Desktop Timeline Styles */
 @media screen and (min-width: 1170px) {
   .vertical-timeline-element-date {
     position: absolute;
@@ -47,20 +43,17 @@
   .vertical-timeline--two-columns .vertical-timeline-element-content .vertical-timeline-element-date {
     position: absolute;
     width: 100%;
-    /* adjust the right date position to the right */
     left: 130%;
   }
 
   .vertical-timeline--two-columns .vertical-timeline-element.vertical-timeline-element--right .vertical-timeline-element-content .vertical-timeline-element-date,
   .vertical-timeline--two-columns .vertical-timeline-element:nth-child(even):not(.vertical-timeline-element--left) .vertical-timeline-element-content .vertical-timeline-element-date {
     left: auto;
-    /* adjust the left date position to the left */
     right: 130%;
     text-align: right;
   }
 }
 
-/* Mobile Timeline Styles */
 @media screen and (max-width: 1169px) {
   .vertical-timeline::before {
     left: 18px;
@@ -94,7 +87,6 @@
   }
 }
 
-/* Timeline Hover Effects */
 .timeline-item-wrapper {
   position: relative;
 }
@@ -103,7 +95,6 @@
   transform: translateY(-2px);
 }
 
-/* Custom Timeline Spacing */
 .vertical-timeline-custom {
   width: 100%;
   max-width: 1170px;
@@ -114,4 +105,4 @@
 
 .vertical-timeline-custom .vertical-timeline-element {
   margin: 3rem 0;
-} 
+}

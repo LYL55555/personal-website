@@ -34,13 +34,13 @@ export function MusicPlayerProvider({ children }) {
   const [currentCover, setCurrentCover] = useState(null);
   const [playlistId, setPlaylistId] = useState(DEFAULT_NETEASE_PLAYLIST_ID);
   const [showSourceSelector, setShowSourceSelector] = useState(false);
-  const [currentTrackUrl, setCurrentTrackUrl] = useState(""); // Store current track URL
-  const [audioQuality, setAudioQuality] = useState("lite"); // Start at 64k; API may upgrade to standard on failure
-  const [playlistInfo, setPlaylistInfo] = useState(null); // Playlist info state
+  const [currentTrackUrl, setCurrentTrackUrl] = useState("");
+  const [audioQuality, setAudioQuality] = useState("lite");
+  const [playlistInfo, setPlaylistInfo] = useState(null);
   const [error, setError] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
-  const [showLyrics, setShowLyrics] = useState(false); // Lyrics panel visibility
+  const [showLyrics, setShowLyrics] = useState(false);
   const [preloadedTracks, setPreloadedTracks] = useState(new Set());
   const [isMinimized, setIsMinimized] = useState(false);
   const [minimizedHydrated, setMinimizedHydrated] = useState(false);
@@ -60,7 +60,6 @@ export function MusicPlayerProvider({ children }) {
     hasCache: hasLyricCache,
   } = useLyricCache();
 
-  // Function to safely get current track
   const getCurrentTrack = () => {
     if (
       !playlist ||
@@ -81,8 +80,7 @@ export function MusicPlayerProvider({ children }) {
   const playlistRef = useRef(playlist);
   playlistRef.current = playlist;
 
-  // Init from playlistId only: avoid double switchSource on mount ([] then [playlistId]) and playlist ref churn
-  // Autoplay each URL once so errors do not flip isPlaying off then retoggle the same failing URL
+  // Autoplay new URL once (autoplayUrlRef avoids retry loops on the same failing src)
   useEffect(() => {
     if (!isInitialized || !currentTrackUrl || !audioRef.current || isPlaying) {
       return;
@@ -118,7 +116,6 @@ export function MusicPlayerProvider({ children }) {
     };
   }, [playlistId]);
 
-  // Ensure currentTrackIndex is always valid
   useEffect(() => {
     if (playlist && playlist.length > 0) {
       if (currentTrackIndex >= playlist.length) {
@@ -129,7 +126,6 @@ export function MusicPlayerProvider({ children }) {
     }
   }, [playlist, currentTrackIndex]);
 
-  // Extract metadata from MP3 file (including cover)
   const extractMetadata = async (trackIndex) => {
     try {
       if (
@@ -144,7 +140,6 @@ export function MusicPlayerProvider({ children }) {
       const currentTrackId = playlist[trackIndex].id;
       const metadata = await loadMetadata(currentTrackId);
 
-      // Ensure returned metadata matches current track (API ids are often numbers)
       if (metadata && String(metadata.id) === String(currentTrackId)) {
         if (metadata.cover) {
           setCurrentCover(metadata.cover);
@@ -156,7 +151,6 @@ export function MusicPlayerProvider({ children }) {
         return metadata;
       } else {
         console.warn("Metadata mismatch; using playlist row as fallback");
-        // Fallback to playlist fields
         setCurrentCover(playlist[trackIndex].album?.picUrl || null);
         return {
           id: currentTrackId,
@@ -174,7 +168,6 @@ export function MusicPlayerProvider({ children }) {
     }
   };
 
-  // Get and set current track URL
   const loadCurrentTrackUrl = async (trackIndex) => {
     if (
       !playlist ||
@@ -195,7 +188,6 @@ export function MusicPlayerProvider({ children }) {
     }
   };
 
-  // Depend on playlistIdsKey, not playlist reference, to avoid duplicate metadata fetches when cache reparses
   useEffect(() => {
     let cancelled = false;
     let retryCount = 0;
@@ -248,14 +240,12 @@ export function MusicPlayerProvider({ children }) {
     };
   }, [currentTrackIndex, playlistIdsKey, isLoading, audioQuality]);
 
-  // Handle playlist ID change
   const handlePlaylistIdChange = (e) => {
     if (e.key === "Enter" && e.target.value) {
       setPlaylistId(e.target.value);
     }
   };
 
-  // Toggle play/pause
   const togglePlay = () => {
     if (!audioRef.current || !currentTrackUrl) {
       return;
@@ -278,7 +268,6 @@ export function MusicPlayerProvider({ children }) {
     setIsPlaying((prev) => !prev);
   };
 
-  // Switch to next track
   const playNext = () => {
     if (!playlist || playlist.length === 0) {
       return;
@@ -286,7 +275,6 @@ export function MusicPlayerProvider({ children }) {
     setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % playlist.length);
   };
 
-  // Switch to previous track
   const playPrevious = () => {
     if (!playlist || playlist.length === 0) {
       return;
@@ -296,7 +284,6 @@ export function MusicPlayerProvider({ children }) {
     );
   };
 
-  // Handle time update
   const handleTimeChange = (e) => {
     if (!audioRef.current) return;
     const time = parseFloat(e.target.value);
@@ -304,7 +291,6 @@ export function MusicPlayerProvider({ children }) {
     setCurrentTime(time);
   };
 
-  // Handle volume update
   const handleVolumeChange = (e) => {
     if (!audioRef.current) return;
     const vol = Math.min(Math.max(parseFloat(e.target.value), 0), 1);
@@ -312,7 +298,6 @@ export function MusicPlayerProvider({ children }) {
     setVolume(vol);
   };
 
-  // When playlist loads, fetch playlist info (playlistIdsKey avoids hammering API when only array ref changes)
   useEffect(() => {
     if (isLoading || !playlistIdsKey) return;
     const pl = playlistRef.current;
@@ -374,8 +359,7 @@ export function MusicPlayerProvider({ children }) {
     };
 
     const handleError = () => {
-      setIsPlaying(false);
-      // Do not auto-skip: unlicensed tracks return 404; auto-next would loop the whole list
+      setIsPlaying(false); // Intentionally no playNext (404/unlicensed would loop the list)
     };
 
     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
@@ -391,14 +375,12 @@ export function MusicPlayerProvider({ children }) {
     };
   }, [currentTrackIndex, isPlaying, playlist.length]);
 
-  // Handle track selection from playlist
   const handleTrackSelect = (index) => {
     setCurrentTrackIndex(index);
     setIsPlaying(true);
     setShowPlaylist(false);
   };
 
-  // After current track loads, preload next (playlistIdsKey avoids duplicate next-URL fetches on ref churn)
   useEffect(() => {
     const pl = playlistRef.current;
     if (duration > 0 && pl && pl.length > 1) {
@@ -417,12 +399,10 @@ export function MusicPlayerProvider({ children }) {
     audioQuality,
   ]);
 
-  // Clear preload when switching playlist
   useEffect(() => {
     clearPreload();
   }, [playlistId]);
 
-  // Toggle lyrics display
   const toggleLyrics = () => {
     setShowLyrics(!showLyrics);
   };
@@ -462,14 +442,12 @@ export function MusicPlayerProvider({ children }) {
     }
   }, [isMinimized, minimizedHydrated]);
 
-  // Handle lyrics seek
   const handleLyricSeek = (time) => {
     if (!audioRef.current) return;
     audioRef.current.currentTime = time;
     setCurrentTime(time);
   };
 
-  // Preload lyrics on track change (current + next; playlistIdsKey avoids duplicate lyric requests)
   useEffect(() => {
     if (isLoading || !playlistIdsKey || currentTrackIndex < 0) return;
     const pl = playlistRef.current;
@@ -529,7 +507,6 @@ export function MusicPlayerProvider({ children }) {
               : "w-[75%] md:w-[600px] max-w-[650px]"
           }`}
         >
-          {/* LyricView component - positioned above the player */}
           {!isMinimized && !isLoading && playlist && playlist.length > 0 && (
             <div className="absolute bottom-full left-0 right-0 flex justify-center w-full mb-8 px-2 md:px-0">
               <div
@@ -571,7 +548,6 @@ export function MusicPlayerProvider({ children }) {
                        : "bg-[#eee8d5]/80 border-[#93a1a1]"
                    }`}
           >
-            {/* Add playlist view */}
             {showPlaylist &&
               !isMinimized &&
               !isLoading &&
@@ -608,7 +584,6 @@ export function MusicPlayerProvider({ children }) {
                     </div>
                   </button>
 
-                  {/* Display playlist name and track count */}
                   {playlistInfo && (
                     <div
                       className={`text-xs hidden sm:block ${
@@ -621,7 +596,6 @@ export function MusicPlayerProvider({ children }) {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  {/* Lyrics button - Updated for better visibility */}
                   {!isLoading && playlist && playlist.length > 0 && (
                     <button
                       type="button"
@@ -644,7 +618,6 @@ export function MusicPlayerProvider({ children }) {
                     </button>
                   )}
 
-                  {/* Playlist button and track counter combined */}
                   {!isLoading && playlist && playlist.length > 0 && (
                     <button
                       type="button"
@@ -670,7 +643,6 @@ export function MusicPlayerProvider({ children }) {
                   )}
                 </div>
 
-                {/* Source selector popup */}
                 {showSourceSelector && (
                   <div
                     className={`absolute top-0 transform -translate-y-full mt-[-8px] z-10 rounded-md shadow-lg p-2 hidden sm:block ${
