@@ -259,7 +259,7 @@ export function DevopsQuadrant({ isDarkMode }) {
           position = {
             radius: Math.min(
               Math.max(skill.baseRadius, MIN_RADIUS),
-              MAX_RADIUS
+              MAX_RADIUS,
             ),
             rotation: Math.min(Math.max(skill.baseAngle, MIN_ANGLE), MAX_ANGLE),
           };
@@ -286,11 +286,11 @@ export function DevopsQuadrant({ isDarkMode }) {
             positions[index] || {
               radius: Math.min(
                 Math.max(skill.baseRadius, MIN_RADIUS),
-                MAX_RADIUS
+                MAX_RADIUS,
               ),
               rotation: Math.min(
                 Math.max(skill.baseAngle, MIN_ANGLE),
-                MAX_ANGLE
+                MAX_ANGLE,
               ),
             }
           }

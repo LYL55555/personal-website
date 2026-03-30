@@ -8,10 +8,13 @@ import { BACKEND_SKILLS } from "@/data/skillsData";
 
 export function BackendQuadrant({ isDarkMode }) {
   const [positions, setPositions] = useState([]);
-  
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 480;
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 480 && window.innerWidth < 768;
-  
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 480;
+  const isTablet =
+    typeof window !== "undefined" &&
+    window.innerWidth >= 480 &&
+    window.innerWidth < 768;
+
   const MAX_RADIUS = isMobile ? 120 : isTablet ? 150 : 180;
   const MIN_RADIUS = isMobile ? 40 : isTablet ? 50 : 60;
   const MIN_ANGLE = -70;
@@ -57,7 +60,7 @@ export function BackendQuadrant({ isDarkMode }) {
           position = {
             radius: Math.min(
               Math.max(skill.baseRadius, MIN_RADIUS),
-              MAX_RADIUS
+              MAX_RADIUS,
             ),
             rotation: Math.min(Math.max(skill.baseAngle, MIN_ANGLE), MAX_ANGLE),
           };
@@ -84,11 +87,11 @@ export function BackendQuadrant({ isDarkMode }) {
             positions[index] || {
               radius: Math.min(
                 Math.max(skill.baseRadius, MIN_RADIUS),
-                MAX_RADIUS
+                MAX_RADIUS,
               ),
               rotation: Math.min(
                 Math.max(skill.baseAngle, MIN_ANGLE),
-                MAX_ANGLE
+                MAX_ANGLE,
               ),
             }
           }
@@ -104,8 +107,10 @@ function SkillItem({ skill, isDarkMode, position, index }) {
   const x = Math.cos((position.rotation * Math.PI) / 180) * position.radius;
   const y = Math.sin((position.rotation * Math.PI) / 180) * position.radius;
 
-  const itemSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 50 : 60;
-  const iconSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 20 : 24;
+  const itemSize =
+    typeof window !== "undefined" && window.innerWidth < 480 ? 50 : 60;
+  const iconSize =
+    typeof window !== "undefined" && window.innerWidth < 480 ? 20 : 24;
 
   return (
     <motion.div
@@ -113,8 +118,8 @@ function SkillItem({ skill, isDarkMode, position, index }) {
       style={{
         width: itemSize,
         height: itemSize,
-        x: x - itemSize/2,
-        y: y - itemSize/2,
+        x: x - itemSize / 2,
+        y: y - itemSize / 2,
       }}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}

@@ -15,25 +15,27 @@ function SkillCircle() {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    
-    if (typeof window !== 'undefined') {
+
+    if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth);
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
     }
-    
+
     return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', handleResize);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
       }
     };
   }, []);
 
-  const containerHeight = windowWidth < 480 ? 500 : windowWidth < 768 ? 550 : 600;
-  const circleRadiuses = windowWidth < 480 
-    ? [60, 90, 120] 
-    : windowWidth < 768 
-      ? [80, 120, 160] 
-      : [100, 150, 200];
+  const containerHeight =
+    windowWidth < 480 ? 500 : windowWidth < 768 ? 550 : 600;
+  const circleRadiuses =
+    windowWidth < 480
+      ? [60, 90, 120]
+      : windowWidth < 768
+        ? [80, 120, 160]
+        : [100, 150, 200];
 
   return (
     <div className="relative w-full h-[500px] xs:h-[550px] md:h-[600px] flex items-center justify-center px-4 sm:px-8 md:px-16 py-8 sm:py-12 overflow-hidden">

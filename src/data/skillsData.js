@@ -91,7 +91,7 @@ const calculateDistribution = (items, quadrantType) => {
       config.baseRadiusStart + config.radiusIncrement * radiusCycle;
 
     const radiusTier = Math.floor(
-      (baseRadius - config.baseRadiusStart) / config.radiusIncrement
+      (baseRadius - config.baseRadiusStart) / config.radiusIncrement,
     );
     const radiusOffset =
       config.radiusOffsetBase + radiusTier * config.radiusOffsetIncrement;
@@ -285,10 +285,10 @@ const DEVOPS_ITEMS = [
 export const BACKEND_SKILLS = calculateDistribution(BACKEND_ITEMS, "BACKEND");
 export const FRONTEND_SKILLS = calculateDistribution(
   FRONTEND_ITEMS,
-  "FRONTEND"
+  "FRONTEND",
 );
 export const DATABASE_SKILLS = calculateDistribution(
   DATABASE_ITEMS,
-  "DATABASE"
+  "DATABASE",
 );
 export const DEVOPS_SKILLS = calculateDistribution(DEVOPS_ITEMS, "DEVOPS");

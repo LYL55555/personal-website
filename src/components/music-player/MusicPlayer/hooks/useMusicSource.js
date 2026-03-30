@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MusicSourceManager } from "../services/MusicSourceManager";
 
-const CACHE_EXPIRY = 1000 * 60 * 60; // 1 hour
+const CACHE_EXPIRY_MS = 1000 * 60 * 60;
 const LEGACY_CACHE_KEY = "netease_playlist_cache";
 
 const musicSourceManager = new MusicSourceManager();
@@ -29,14 +29,14 @@ export const useMusicSource = () => {
       try {
         localStorage.removeItem(LEGACY_CACHE_KEY);
       } catch {
-        /* ignore */
+        void 0;
       }
 
       const key = playlistCacheKey();
       const cached = localStorage.getItem(key);
       if (cached) {
         const { data, timestamp } = JSON.parse(cached);
-        const isExpired = Date.now() - timestamp > CACHE_EXPIRY;
+        const isExpired = Date.now() - timestamp > CACHE_EXPIRY_MS;
         const isEmpty = !Array.isArray(data) || data.length === 0;
 
         if (!isExpired && !isEmpty) {
