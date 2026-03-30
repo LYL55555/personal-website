@@ -7,7 +7,7 @@ import {
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
-/** 网易返回的 http:80 CDN 在部分网络/机房连不上，优先走 https */
+/** Netease http:80 CDN is flaky from some networks; prefer https */
 function normalizeNeteaseCdnUrl(url) {
   if (!url || typeof url !== "string") return url;
   try {
@@ -78,7 +78,7 @@ async function resolvePlayableUrl(ncm, id, br, opts) {
 
 /**
  * GET /api/netease/song/url?id=...&level=lite|standard|higher|...
- * 使用本地 NeteaseCloudMusicApi 直连网易接口，不再依赖已 402 的 vercel 公共代理。
+ * Uses local NeteaseCloudMusicApi (no deprecated 402 public proxy).
  */
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
@@ -86,7 +86,7 @@ export async function GET(request) {
   const level = searchParams.get("level") || "lite";
 
   if (!id) {
-    return Response.json({ error: "缺少歌曲ID参数" }, { status: 400 });
+    return Response.json({ error: "Missing song id" }, { status: 400 });
   }
 
   const ncm = getNeteaseApi();
@@ -106,7 +106,7 @@ export async function GET(request) {
     if (proxied) return proxied;
   }
 
-  // 服务端拉 CDN 超时或不可达时，让浏览器直接请求（用户侧常比 Vercel/部分机房更易连通）
+  // If server-side CDN fetch fails, redirect so the browser can try (often better reachability)
   if (lastNormalizedUrl) {
     return Response.redirect(lastNormalizedUrl, 302);
   }
@@ -114,7 +114,7 @@ export async function GET(request) {
   return Response.json(
     {
       success: false,
-      error: "无可播放地址（可配置 NETEASE_COOKIE 后重试）",
+      error: "No playable URL (retry with NETEASE_COOKIE if configured)",
       id,
       level,
     },

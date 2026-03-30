@@ -10,10 +10,10 @@ const DraggableWindow = React.memo(
     const { isDarkMode } = useTheme();
     const [windowSize, setWindowSize] = useState({ width: 300, height: 'auto' });
 
-    // 检测窗口尺寸并相应调整
+    // Responsive default width
     useEffect(() => {
       const updateSize = () => {
-        // 进一步缩小移动端窗口大小，使其能够容纳更多窗口
+        // Tighter widths on small screens so more tiles fit
         let width = 300;
         if (window.innerWidth < 768) {
           width = 240;
@@ -36,7 +36,7 @@ const DraggableWindow = React.memo(
         bounds={bounds}
         nodeRef={nodeRef}
         onStart={(e) => {
-          // 只允许从标题栏拖拽
+          // Drag from header only
           const target = e.target;
           const isHeader = target.closest('[data-handle="true"]');
           if (!isHeader) {
@@ -46,8 +46,8 @@ const DraggableWindow = React.memo(
         }}
         onStop={onStop}
         onDrag={onDrag}
-        grid={[1, 1]} // 添加1像素的网格对齐
-        scale={1} // 确保缩放比例为1
+        grid={[1, 1]}
+        scale={1}
       >
         <div
           ref={nodeRef}
@@ -68,7 +68,7 @@ const DraggableWindow = React.memo(
             height: windowSize.height
           }}
         >
-          {/* 窗口顶部 - 添加data-handle属性标识可拖拽区域 */}
+          {/* Title bar (data-handle enables drag) */}
           <div
             data-handle="true"
             className={`
@@ -95,7 +95,7 @@ const DraggableWindow = React.memo(
             </button>
           </div>
 
-          {/* 窗口内容 */}
+          {/* Body */}
           <div className="p-2 sm:p-3">{children}</div>
         </div>
       </Draggable>

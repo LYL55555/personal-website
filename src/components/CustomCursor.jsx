@@ -9,7 +9,7 @@ import {
 import { usePathname } from "next/navigation";
 import "../styles/cursor.css";
 
-/** 跨路由/重挂载保留指针位置，避免 App Router 切换后光标回到 (0,0) */
+/** Preserve pointer position across routes/remounts (avoid reset to 0,0 after navigation) */
 let lastPointerClient = { x: 0, y: 0 };
 
 const CustomCursor = () => {

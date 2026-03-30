@@ -16,7 +16,7 @@ const Interests = ({ containerRef }) => {
   const isInitializedRef = useRef(false);
   const previousDimensionsRef = useRef({ width: 0, height: 0 });
   
-  // 防抖函数
+  // Debounce helper
   const debounce = useCallback((func, wait) => {
     let timeout;
     return function executedFunction(...args) {
@@ -29,7 +29,7 @@ const Interests = ({ containerRef }) => {
     };
   }, []);
 
-  // 检测是否为移动设备
+  // Mobile breakpoint
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -40,7 +40,7 @@ const Interests = ({ containerRef }) => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // 更新容器尺寸
+  // Measure playfield below navbar
   useEffect(() => {
     const updateDimensions = () => {
       if (containerRef.current) {
@@ -63,7 +63,7 @@ const Interests = ({ containerRef }) => {
     return () => window.removeEventListener('resize', debouncedUpdateDimensions);
   }, [containerRef, debounce]);
 
-  // 处理窗口位置更新
+  // Scale window positions on resize
   useEffect(() => {
     if (!windows || !containerDimensions.width || !containerDimensions.height) return;
 
@@ -77,7 +77,7 @@ const Interests = ({ containerRef }) => {
       const scaleX = containerDimensions.width / prevWidth;
       const scaleY = containerDimensions.height / prevHeight;
       
-      // 窗口大小 - 移动端280px，桌面端300px
+      // Window chrome width: 280 narrow mobile, else 300
       const windowWidth = window.innerWidth < 480 ? 280 : 300;
       const windowHeight = 300;
 
@@ -95,18 +95,18 @@ const Interests = ({ containerRef }) => {
     }
   }, [containerDimensions]);
 
-  // 初始化窗口位置
+  // Seed floating windows once layout is known
   useEffect(() => {
     if (isInitializedRef.current || !containerDimensions.width || !containerDimensions.height) return;
 
-    // 显示所有窗口，不再只在移动端显示部分窗口
+    // Show every interest window on all breakpoints
     const windowIds = ['photography', 'music', 'pet', 'travel', 'fitness', 'anime', 'art', 'volunteer'];
     
     setWindows(
       windowIds.map((id, index) => ({
         ...getInitialPosition(index, windowIds.length, containerDimensions),
         id,
-        // 移动端设置较小的初始速度，减少窗口移动
+        // Gentler drift on mobile
         velocity: {
           x: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.5),
           y: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.5)
@@ -118,7 +118,7 @@ const Interests = ({ containerRef }) => {
     previousDimensionsRef.current = containerDimensions;
   }, [containerDimensions, isMobile]);
 
-  // 处理窗口移动和碰撞
+  // Bounce windows inside the playfield
   useEffect(() => {
     if (!windows || !containerDimensions.width || !containerDimensions.height) return;
 
@@ -127,18 +127,17 @@ const Interests = ({ containerRef }) => {
     const windowHeight = 300;
 
     const updatePositions = () => {
-      // 在移动设备上减慢动画
       const speedFactor = isMobile ? 0.6 : 1;
-      
+
       setWindows(prevWindows => 
         prevWindows.map(win => {
           if (win.isDragging || !win.isVisible) return win;
 
-          // 应用速度因子
+          // Apply speed damping on mobile
           const adjustedVelocityX = win.velocity.x * speedFactor;
           const adjustedVelocityY = win.velocity.y * speedFactor;
 
-          // 计算窗口的新位置（四个边界）
+          // Integrate position from velocity
           const newLeft = win.position.x + adjustedVelocityX;
           const newRight = newLeft + windowWidth;
           const newTop = win.position.y + adjustedVelocityY;
@@ -147,20 +146,19 @@ const Interests = ({ containerRef }) => {
           let newVelocityX = win.velocity.x;
           let newVelocityY = win.velocity.y;
 
-          // 水平方向的碰撞检测（左右边界）
+          // Horizontal bounce
           if (newLeft <= 0 || newRight >= containerDimensions.width) {
             newVelocityX = -win.velocity.x;
           }
           
-          // 垂直方向的碰撞检测（上下边界）
-          // navbar高度为64px，footer padding为16px
-          const minTop = 0; // navbar的下边界对应容器的0位置
-          const maxBottom = containerDimensions.height - 16; // 减去footer padding
+          // Vertical bounce (navbar 64px already excluded from height; reserve 16px footer pad)
+          const minTop = 0;
+          const maxBottom = containerDimensions.height - 16;
           if (newTop <= minTop || newBottom >= maxBottom) {
             newVelocityY = -win.velocity.y;
           }
 
-          // 确保窗口完全在可视区域内
+          // Clamp inside bounds
           const boundedX = Math.max(0, Math.min(newLeft, containerDimensions.width - windowWidth));
           const boundedY = Math.max(minTop, Math.min(newTop, maxBottom - windowHeight));
 
@@ -202,13 +200,13 @@ const Interests = ({ containerRef }) => {
   }, []);
 
   const handleDrag = useCallback((id, data) => {
-    // 根据屏幕尺寸确定窗口大小
+    // Window size from breakpoint
     const isVerySmall = typeof window !== 'undefined' && window.innerWidth < 480;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const windowWidth = isVerySmall ? 200 : isMobile ? 240 : 300;
     const windowHeight = 300;
     
-    const maxBottom = containerDimensions.height - 16; // 减去footer padding
+    const maxBottom = containerDimensions.height - 16;
     
     setWindows(prevWindows =>
       prevWindows.map(win =>
@@ -233,7 +231,7 @@ const Interests = ({ containerRef }) => {
     );
   }, []);
 
-  // 添加重置功能，让所有窗口重新显示
+  // Reset: respawn every window
   const handleReset = useCallback(() => {
     isInitializedRef.current = false;
     setWindows(null);
@@ -256,7 +254,7 @@ const Interests = ({ containerRef }) => {
         height: `${containerDimensions.height}px`,
       }}
     >
-      {/* 移动端添加重置按钮 */}
+      {/* Mobile reset control */}
       {isMobile && (
         <button 
           onClick={handleReset}

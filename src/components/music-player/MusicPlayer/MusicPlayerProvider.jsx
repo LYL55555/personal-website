@@ -35,12 +35,12 @@ export function MusicPlayerProvider({ children }) {
   const [playlistId, setPlaylistId] = useState(DEFAULT_NETEASE_PLAYLIST_ID);
   const [showSourceSelector, setShowSourceSelector] = useState(false);
   const [currentTrackUrl, setCurrentTrackUrl] = useState(""); // Store current track URL
-  const [audioQuality, setAudioQuality] = useState("lite"); // 先 64k，接口侧失败会升到 standard
+  const [audioQuality, setAudioQuality] = useState("lite"); // Start at 64k; API may upgrade to standard on failure
   const [playlistInfo, setPlaylistInfo] = useState(null); // Playlist info state
   const [error, setError] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
-  const [showLyrics, setShowLyrics] = useState(false); // 控制歌词显示
+  const [showLyrics, setShowLyrics] = useState(false); // Lyrics panel visibility
   const [preloadedTracks, setPreloadedTracks] = useState(new Set());
   const [isMinimized, setIsMinimized] = useState(false);
   const [minimizedHydrated, setMinimizedHydrated] = useState(false);
@@ -81,8 +81,8 @@ export function MusicPlayerProvider({ children }) {
   const playlistRef = useRef(playlist);
   playlistRef.current = playlist;
 
-  // 仅用 playlistId 初始化，避免 mount 时 [] 与 [playlistId] 两次 switchSource 导致重复 loadPlaylist、playlist 引用抖动
-  // 每个 URL 只自动播一次，避免 error 后 isPlaying 变 false 又对同一失败地址反复 toggle
+  // Init from playlistId only: avoid double switchSource on mount ([] then [playlistId]) and playlist ref churn
+  // Autoplay each URL once so errors do not flip isPlaying off then retoggle the same failing URL
   useEffect(() => {
     if (!isInitialized || !currentTrackUrl || !audioRef.current || isPlaying) {
       return;
@@ -144,7 +144,7 @@ export function MusicPlayerProvider({ children }) {
       const currentTrackId = playlist[trackIndex].id;
       const metadata = await loadMetadata(currentTrackId);
 
-      // 验证返回的元数据是否匹配当前歌曲（接口 id 常为 number）
+      // Ensure returned metadata matches current track (API ids are often numbers)
       if (metadata && String(metadata.id) === String(currentTrackId)) {
         if (metadata.cover) {
           setCurrentCover(metadata.cover);
@@ -155,20 +155,20 @@ export function MusicPlayerProvider({ children }) {
         }
         return metadata;
       } else {
-        console.warn("元数据不匹配当前歌曲，使用播放列表数据");
-        // 使用播放列表中的数据作为备选
+        console.warn("Metadata mismatch; using playlist row as fallback");
+        // Fallback to playlist fields
         setCurrentCover(playlist[trackIndex].album?.picUrl || null);
         return {
           id: currentTrackId,
           title: playlist[trackIndex].name,
-          artist: playlist[trackIndex].artists?.[0]?.name || "未知歌手",
-          album: playlist[trackIndex].album?.name || "未知专辑",
+          artist: playlist[trackIndex].artists?.[0]?.name || "Unknown Artist",
+          album: playlist[trackIndex].album?.name || "Unknown Album",
           cover: playlist[trackIndex].album?.picUrl || null,
           duration: playlist[trackIndex].duration || 0,
         };
       }
     } catch (error) {
-      console.error("获取元数据失败:", error);
+      console.error("Failed to fetch metadata:", error);
       setCurrentCover(null);
       return null;
     }
@@ -195,7 +195,7 @@ export function MusicPlayerProvider({ children }) {
     }
   };
 
-  // 依赖 playlistIdsKey 而非 playlist 引用，避免缓存 parse 新数组导致重复拉元数据
+  // Depend on playlistIdsKey, not playlist reference, to avoid duplicate metadata fetches when cache reparses
   useEffect(() => {
     let cancelled = false;
     let retryCount = 0;
@@ -312,7 +312,7 @@ export function MusicPlayerProvider({ children }) {
     setVolume(vol);
   };
 
-  // When playlist loads, extract playlist info（依赖 playlistIdsKey，避免后台刷新仅替换数组引用时反复打 playlist 接口）
+  // When playlist loads, fetch playlist info (playlistIdsKey avoids hammering API when only array ref changes)
   useEffect(() => {
     if (isLoading || !playlistIdsKey) return;
     const pl = playlistRef.current;
@@ -375,7 +375,7 @@ export function MusicPlayerProvider({ children }) {
 
     const handleError = () => {
       setIsPlaying(false);
-      // 不再自动切下一首：无版权时 API 已返回 404，自动切歌会在整列表上循环
+      // Do not auto-skip: unlicensed tracks return 404; auto-next would loop the whole list
     };
 
     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
@@ -398,7 +398,7 @@ export function MusicPlayerProvider({ children }) {
     setShowPlaylist(false);
   };
 
-  // 在当前歌曲加载完成后预加载下一首（依赖 playlistIdsKey，避免歌单引用抖动重复拉下一首 URL）
+  // After current track loads, preload next (playlistIdsKey avoids duplicate next-URL fetches on ref churn)
   useEffect(() => {
     const pl = playlistRef.current;
     if (duration > 0 && pl && pl.length > 1) {
@@ -417,7 +417,7 @@ export function MusicPlayerProvider({ children }) {
     audioQuality,
   ]);
 
-  // 切换播放列表时清理预加载
+  // Clear preload when switching playlist
   useEffect(() => {
     clearPreload();
   }, [playlistId]);
@@ -469,7 +469,7 @@ export function MusicPlayerProvider({ children }) {
     setCurrentTime(time);
   };
 
-  // 当歌曲变化时预加载歌词（当前 + 下一首；依赖 playlistIdsKey 避免歌单引用抖动重复请求）
+  // Preload lyrics on track change (current + next; playlistIdsKey avoids duplicate lyric requests)
   useEffect(() => {
     if (isLoading || !playlistIdsKey || currentTrackIndex < 0) return;
     const pl = playlistRef.current;

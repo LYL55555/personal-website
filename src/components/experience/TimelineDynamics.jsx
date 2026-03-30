@@ -146,7 +146,7 @@ function TimelineDynamics() {
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* 标题区域 */}
+            {/* Title block */}
             <div
               className={`p-5 flex flex-col items-center ${
                 isDarkMode ? "text-solarized-ghWash" : "text-solarized-ghInk"
@@ -175,14 +175,14 @@ function TimelineDynamics() {
                 {selectedMilestone.date}
               </h4>
 
-              {/* 分隔线 */}
+              {/* Divider */}
               <div
                 className={`w-full h-px my-4 ${
                   isDarkMode ? "bg-solarized-ghBorder" : "bg-[#d8dee4]"
                 }`}
               ></div>
 
-              {/* 详情文本区域 */}
+              {/* Body copy */}
               <div className="w-full">
                 <p
                   className={`text-sm ${
@@ -195,7 +195,7 @@ function TimelineDynamics() {
               </div>
             </div>
 
-            {/* 按钮区域 */}
+            {/* Actions */}
             <div
               className={`p-4 ${
                 isDarkMode ? "bg-solarized-base02" : "bg-solarized-cardWash"

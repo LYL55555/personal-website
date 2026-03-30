@@ -10,7 +10,7 @@ const AlbumCover = ({ currentCover, isDarkMode, isPlaying }) => {
   const startTimeRef = useRef(null);
   const isMountedRef = useRef(false);
 
-  // 重置旋转状态
+  // Reset spin when cover changes
   const resetRotation = useEffect(() => {
     if (isMountedRef.current) {
       rotationRef.current = 0;
@@ -27,7 +27,7 @@ const AlbumCover = ({ currentCover, isDarkMode, isPlaying }) => {
       if (!startTimeRef.current) startTimeRef.current = timestamp;
       const elapsed = timestamp - startTimeRef.current;
 
-      // 每4秒转360度
+      // One full rotation every 4s
       rotationRef.current = (elapsed / 4000) * 360;
 
       if (isMountedRef.current) {
@@ -55,7 +55,7 @@ const AlbumCover = ({ currentCover, isDarkMode, isPlaying }) => {
 
   return (
     <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 relative flex-shrink-0 order-first">
-      {/* 黑胶外圈 */}
+      {/* Vinyl outer ring */}
       <div className="absolute inset-0 rounded-full border-[10px] sm:border-[12px] border-black">
         {currentCover ? (
           <motion.div

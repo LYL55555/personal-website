@@ -132,7 +132,7 @@ export const useMusicSource = () => {
       const url = await source.getAudioUrl(trackId);
       return url;
     } catch (err) {
-      // 发生错误时直接返回直连URL
+      // On error, fall back to direct stream URL
       return `https://music.163.com/song/media/outer/url?id=${trackId}.mp3`;
     }
   };

@@ -9,7 +9,7 @@ import { BACKEND_SKILLS } from "@/data/skillsData";
 export function BackendQuadrant({ isDarkMode }) {
   const [positions, setPositions] = useState([]);
   
-  // 响应式调整尺寸
+  // Responsive geometry
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 480;
   const isTablet = typeof window !== 'undefined' && window.innerWidth >= 480 && window.innerWidth < 768;
   
@@ -29,13 +29,13 @@ export function BackendQuadrant({ isDarkMode }) {
         let position;
 
         while (attempts < maxAttempts) {
-          // 生成随机角度（严格在右上象限内）
+          // Random angle inside top-right quadrant
           let newAngle = MIN_ANGLE + Math.random() * (MAX_ANGLE - MIN_ANGLE);
-          // 生成随机半径（在最小和最大半径之间）
+          // Random radius between min and max
           let newRadius =
             MIN_RADIUS + Math.random() * (MAX_RADIUS - MIN_RADIUS);
 
-          // 检查是否与已使用的位置太接近
+          // Reject if too close to existing bubbles
           let tooClose = false;
           for (const pos of calculatedPositions) {
             const angleDiff = Math.abs(pos.rotation - newAngle);
@@ -57,7 +57,7 @@ export function BackendQuadrant({ isDarkMode }) {
           attempts++;
         }
 
-        // 如果找不到合适的位置，使用基础位置（确保在象限内）
+        // Fallback grid slot if no free spot
         if (!position) {
           position = {
             radius: Math.min(
@@ -109,7 +109,7 @@ function SkillItem({ skill, isDarkMode, position, index }) {
   const x = Math.cos((position.rotation * Math.PI) / 180) * position.radius;
   const y = Math.sin((position.rotation * Math.PI) / 180) * position.radius;
 
-  // 使用响应式类名调整大小
+  // Responsive class sizing
   const itemSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 50 : 60;
   const iconSize = typeof window !== 'undefined' && window.innerWidth < 480 ? 20 : 24;
 

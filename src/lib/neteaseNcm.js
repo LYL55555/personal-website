@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 let ncmApi;
 
 /**
- * 懒加载 CommonJS 包 NeteaseCloudMusicApi（避免在客户端打包）
+ * Lazy-load CommonJS NeteaseCloudMusicApi (keep out of client bundles).
  */
 export function getNeteaseApi() {
   if (!ncmApi) {
@@ -15,14 +15,14 @@ export function getNeteaseApi() {
 }
 
 /**
- * 若设置 NETEASE_COOKIE（浏览器里 music.163.com 的 Cookie 字符串），可提升可播放曲目比例。
+ * Set NETEASE_COOKIE to a music.163.com cookie string to improve playable track rate.
  */
 export function neteaseRequestOptions() {
   const cookie = process.env.NETEASE_COOKIE;
   return cookie ? { cookie } : {};
 }
 
-/** 与前端 `level` 查询参数对应，传给 NeteaseCloudMusicApi song_url 的 br */
+/** Map frontend `level` query to NeteaseCloudMusicApi song_url `br`. */
 export function levelToBr(level) {
   switch (level) {
     case "lite":
@@ -42,7 +42,7 @@ export function levelToBr(level) {
   }
 }
 
-/** 按音质依次尝试 br，优先省流、失败再升码率 */
+/** Ordered br fallbacks: start low, escalate on failure. */
 export function brCandidatesForLevel(level) {
   const hi = levelToBr("higher");
   switch (level) {

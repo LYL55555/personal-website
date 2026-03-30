@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * 音乐源接口
+ * Music source contract
  * @interface MusicSource
  */
 export class MusicSourceInterface {
   /**
-   * 获取播放列表
+   * Load playlist rows
    * @returns {Promise<Array<{
    *   id: string,
    *   title: string,
@@ -19,7 +19,7 @@ export class MusicSourceInterface {
   }
 
   /**
-   * 获取音乐元数据（包括封面）
+   * Track metadata (incl. cover)
    * @param {string} trackId
    * @returns {Promise<{
    *   title: string,
@@ -34,7 +34,7 @@ export class MusicSourceInterface {
   }
 
   /**
-   * 获取音频源URL
+   * Resolve playable audio URL
    * @param {string} trackId
    * @returns {Promise<string>}
    */

@@ -9,16 +9,16 @@ export const UsagiModel = () => {
   const modelRef = useRef();
   const { viewport } = useThree();
   const mouse = useRef([0, 0]);
-  const baseRotationY = Math.PI * 0.25; // 基础Y轴旋转
+  const baseRotationY = Math.PI * 0.25; // Default yaw
 
-  // 音频播放hook
+  // Hover ambience audio
   const { playAudio, stopAudio, cleanup } = useAudioHover(
     "/usagi_cursor/3uniques.mp3"
   );
 
   useEffect(() => {
     const updateMouse = (event) => {
-      // 将鼠标位置归一化到 -1 到 1 的范围
+      // Normalize pointer to [-1, 1]
       mouse.current = [
         (event.clientX / window.innerWidth) * 2 - 1,
         -(event.clientY / window.innerHeight) * 2 + 1,
@@ -28,34 +28,31 @@ export const UsagiModel = () => {
     window.addEventListener("mousemove", updateMouse);
     return () => {
       window.removeEventListener("mousemove", updateMouse);
-      cleanup(); // 清理音频资源
+      cleanup();
     };
   }, [cleanup]);
 
   useFrame((state, delta) => {
     if (!modelRef.current) return;
 
-    // 计算目标旋转
-    const targetX = -mouse.current[1] * 0.2; // 上下视线移动
+    const targetX = -mouse.current[1] * 0.2; // Pitch from vertical pointer
 
-    // 计算左右旋转
+    // Yaw + depth from horizontal pointer
     let rotationOffset;
     let zOffset;
     if (mouse.current[0] < 0) {
-      // 左侧：使用更大的系数，并确保是负值（向左转）
       rotationOffset = Math.abs(mouse.current[0]) * -0.8;
-      // 左侧：根据鼠标位置调整Z轴位置
+      // Push model forward when pointer is left
       zOffset = Math.abs(mouse.current[0]) * 0.3;
     } else {
-      // 右侧：保持原来的灵敏度
       rotationOffset = mouse.current[0] * 0.4;
-      // 右侧：根据鼠标位置调整Z轴位置
+      // Pull Z when pointer is right
       zOffset = mouse.current[0] * 0.3;
     }
 
     const targetY = baseRotationY + rotationOffset;
 
-    // 平滑插值当前旋转到目标旋转
+    // Smooth rotations toward targets
     modelRef.current.rotation.x = THREE.MathUtils.lerp(
       modelRef.current.rotation.x,
       targetX,
@@ -67,7 +64,7 @@ export const UsagiModel = () => {
       delta * 2
     );
 
-    // 平滑插值Z轴位置
+    // Smooth Z toward target
     modelRef.current.position.z = THREE.MathUtils.lerp(
       modelRef.current.position.z,
       zOffset,

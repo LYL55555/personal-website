@@ -14,15 +14,15 @@ export const useAudioPreload = () => {
     try {
       setIsPreloading(true);
 
-      // 创建新的预加载音频元素
+      // New hidden audio element for preload
       const audioElement = new Audio();
       audioElement.preload = "auto";
       audioElement.src = `/api/netease/song/url?id=${trackId}&level=${audioQuality}`;
 
-      // 开始加载
+      // Kick off fetch
       await audioElement.load();
 
-      // 存储预加载信息
+      // Remember preload target
       setPreloadTrack({
         id: trackId,
         audio: audioElement,
@@ -42,7 +42,7 @@ export const useAudioPreload = () => {
     setPreloadTrack(null);
   };
 
-  // 组件卸载时清理
+  // Teardown on unmount
   useEffect(() => {
     return () => {
       clearPreload();

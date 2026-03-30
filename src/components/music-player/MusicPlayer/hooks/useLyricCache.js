@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-// 解析 LRC 格式歌词（纯函数，供稳定的 fetchLyrics 回调使用）
+// Parse LRC lyrics (pure; stable for fetchLyrics callback identity)
 function parseLyric(lrc) {
   if (!lrc) return [];
 
@@ -54,10 +54,10 @@ export const useLyricCache = () => {
   }, [cache]);
 
   const [currentTrackId, setCurrentTrackId] = useState(null);
-  /** 按歌曲维度标记拉歌词中，避免预加载下一首时把歌词面板也判成全局 loading */
+  /** Per-track lyric fetch flag so preloading next track does not look like global panel loading */
   const [lyricPendingById, setLyricPendingById] = useState({});
 
-  // 用 cacheRef 判断命中，避免依赖 cache 导致 fetchLyrics / preloadLyrics 频繁变化
+  // Use cacheRef for hits so fetchLyrics/preloadLyrics identities stay stable
   const fetchLyrics = useCallback(async (trackId) => {
     const id = lyricKey(trackId);
     if (!id) return { lyrics: [], translatedLyrics: [], songInfo: null };
@@ -70,7 +70,7 @@ export const useLyricCache = () => {
       const response = await fetch(
         `/api/netease/lyric?id=${encodeURIComponent(id)}`,
       );
-      if (!response.ok) throw new Error("获取歌词失败");
+      if (!response.ok) throw new Error("Failed to fetch lyrics");
 
       const data = await response.json();
 
@@ -87,7 +87,7 @@ export const useLyricCache = () => {
         }
       }
 
-      // 歌曲标题/歌手由播放器传入 fallback，避免与 extractMetadata 重复打 song/detail
+      // Title/artist come from player fallback; avoids duplicate song/detail with extractMetadata
 
       setCache((prev) => {
         const next = { ...prev, [id]: result };
@@ -97,7 +97,7 @@ export const useLyricCache = () => {
 
       return result;
     } catch (error) {
-      console.error("获取歌词失败:", error);
+      console.error("Lyric fetch failed:", error);
       return { lyrics: [], translatedLyrics: [], songInfo: null };
     } finally {
       setLyricPendingById((p) => {
@@ -108,7 +108,7 @@ export const useLyricCache = () => {
     }
   }, []);
 
-  // 预加载特定歌曲ID的歌词
+  // Preload lyrics for a track id
   const preloadLyrics = useCallback(
     async (trackId) => {
       const id = lyricKey(trackId);
@@ -120,7 +120,7 @@ export const useLyricCache = () => {
     [fetchLyrics],
   );
 
-  // 获取当前加载的歌词
+  // Read cached lyrics for a track
   const getLyrics = useCallback(
     (trackId) => {
       const id = lyricKey(trackId);
@@ -130,17 +130,16 @@ export const useLyricCache = () => {
     [cache],
   );
 
-  // 根据当前播放时间找到匹配的歌词索引
+  // Binary search: lyric index for current playback time
   const findLyricIndex = useCallback((lyrics, currentTime) => {
     if (!lyrics || !lyrics.length) return -1;
 
-    // 如果当前时间小于第一句歌词的时间，返回-1
     if (currentTime < lyrics[0].time) return -1;
 
-    // 如果当前时间大于最后一句歌词的时间，返回最后一句
+    // Past last line: stick to last index
     if (currentTime >= lyrics[lyrics.length - 1].time) return lyrics.length - 1;
 
-    // 二分查找匹配的歌词
+    // Binary search active line
     let left = 0;
     let right = lyrics.length - 1;
 
@@ -149,7 +148,7 @@ export const useLyricCache = () => {
 
       if (mid === lyrics.length - 1) return mid;
 
-      // 找到在当前时间和下一句开始时间之间的歌词
+      // Line whose window contains currentTime
       if (
         currentTime >= lyrics[mid].time &&
         currentTime < lyrics[mid + 1].time
@@ -167,7 +166,7 @@ export const useLyricCache = () => {
     return -1;
   }, []);
 
-  // 清除特定歌曲的缓存
+  // Drop one track or entire cache
   const clearCache = useCallback((trackId) => {
     const id = lyricKey(trackId);
     if (id) {

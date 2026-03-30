@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import * as Si from "react-icons/si";
 import { useEffect, useState, useMemo, useCallback } from "react";
 
-// 计算两点之间的距离
+// Euclidean distance between two points
 const calculateDistance = (x1, y1, x2, y2) => {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 };
 
-// 生成新的随机位置
+// Sample a new random position
 const generatePosition = (skill) => {
   const radius =
     Math.random() * (skill.maxRadius - skill.minRadius) + skill.minRadius;
@@ -17,7 +17,7 @@ const generatePosition = (skill) => {
   return { radius, rotation };
 };
 
-// 检查位置是否有效
+// Whether a candidate lies inside the quadrant annulus
 const isValidPosition = (position, positions, skills, index, minDistance) => {
   const x1 = Math.cos((position.rotation * Math.PI) / 180) * position.radius;
   const y1 = Math.sin((position.rotation * Math.PI) / 180) * position.radius;
@@ -139,10 +139,10 @@ const MIN_DISTANCE = 65;
 
 export function DatabaseQuadrant({ isDarkMode }) {
   const [positions, setPositions] = useState([]);
-  const MAX_RADIUS = 180; // 减小最大半径
-  const MIN_RADIUS = 60; // 减小最小半径
-  const MIN_ANGLE = 110; // 调整角度范围
-  const MAX_ANGLE = 160; // 左下象限
+  const MAX_RADIUS = 180; // Tighter outer bound
+  const MIN_RADIUS = 60; // Inner bound
+  const MIN_ANGLE = 110; // Bottom-left wedge
+  const MAX_ANGLE = 160;
 
   const generateOptimalPositions = useCallback(() => {
     const newPositions = [];

@@ -2,7 +2,7 @@
 
 import { MusicSourceInterface } from "./MusicSourceInterface";
 
-/** 同一会话内按歌曲去重，避免 Strict Mode / effect 重跑对同一 id 反复打 song/detail */
+/** Dedupe song/detail per track in-session (Strict Mode / effect re-runs). */
 const METADATA_TTL_MS = 1000 * 60 * 30;
 const metadataCache = new Map();
 const metadataInflight = new Map();
@@ -14,7 +14,7 @@ export class NeteaseMusicSource extends MusicSourceInterface {
   constructor(playlistId = DEFAULT_PLAYLIST) {
     super();
     this.playlistId = playlistId;
-    this.apiBaseUrl = "/api/netease"; // 需要创建的API端点
+    this.apiBaseUrl = "/api/netease"; // App route prefix for Netease proxy
   }
 
   setPlaylistId(playlistId) {
@@ -26,49 +26,41 @@ export class NeteaseMusicSource extends MusicSourceInterface {
       const response = await fetch(
         `${this.apiBaseUrl}/playlist?id=${this.playlistId}`,
       );
-      if (!response.ok) throw new Error("获取网易云歌单失败");
+      if (!response.ok) throw new Error("Failed to fetch Netease playlist");
       const data = await response.json();
 
-      // 处理网易云音乐API返回的不同可能的结构
+      // Normalize varied Netease / third-party response shapes
       let tracks = [];
 
-      // 方式1: 标准网易云API返回格式
       if (data.result && Array.isArray(data.result.tracks)) {
         tracks = data.result.tracks;
-      }
-      // 方式2: 直接歌曲数组
-      else if (Array.isArray(data.tracks)) {
+      } else if (Array.isArray(data.tracks)) {
         tracks = data.tracks;
-      }
-      // 方式3: 歌曲数组可能在songs字段中
-      else if (Array.isArray(data.songs)) {
+      } else if (Array.isArray(data.songs)) {
         tracks = data.songs;
-      }
-      // 方式4: 单个歌曲对象
-      else if (data.songs && Array.isArray(data.songs)) {
+      } else if (data.songs && Array.isArray(data.songs)) {
         tracks = data.songs;
       }
 
       if (!tracks.length) {
-        throw new Error("获取的歌单格式不正确或歌单为空");
+        throw new Error("Invalid or empty playlist payload");
       }
 
       return tracks.map((track) => {
-        // 处理不同的字段命名（标准API vs 第三方API）
         const artists = track.artists || track.ar || [];
         const album = track.album || track.al || {};
-        const name = track.name || track.title || "未知歌曲";
+        const name = track.name || track.title || "Unknown Track";
 
         return {
           id: track.id.toString(),
           name: name,
           artists: artists.map((a) => ({
             id: a.id?.toString() || "",
-            name: a.name || "未知歌手",
+            name: a.name || "Unknown Artist",
           })),
           album: {
             id: album.id?.toString() || "",
-            name: album.name || "未知专辑",
+            name: album.name || "Unknown Album",
             picUrl: album.picUrl || null,
           },
           duration: track.duration || track.dt || 0,
@@ -77,7 +69,7 @@ export class NeteaseMusicSource extends MusicSourceInterface {
         };
       });
     } catch (error) {
-      console.error("获取歌单失败:", error);
+      console.error("Playlist fetch failed:", error);
       return [];
     }
   }
@@ -96,7 +88,7 @@ export class NeteaseMusicSource extends MusicSourceInterface {
         const response = await fetch(
           `${this.apiBaseUrl}/song/detail?ids=${trackId}`,
         );
-        if (!response.ok) throw new Error("获取歌曲详情失败");
+        if (!response.ok) throw new Error("Failed to fetch song detail");
         const data = await response.json();
 
         let song = null;
@@ -122,8 +114,8 @@ export class NeteaseMusicSource extends MusicSourceInterface {
         }
 
         if (!song) {
-          console.error("未找到匹配的歌曲详情,返回数据结构:", data);
-          throw new Error("获取的歌曲详情格式不正确");
+          console.error("No matching song detail; payload:", data);
+          throw new Error("Unexpected song detail shape");
         }
 
         const metadata = {
@@ -131,29 +123,29 @@ export class NeteaseMusicSource extends MusicSourceInterface {
           title: song.name,
           artist:
             (song.artists || song.ar)?.map((a) => a.name).join("/") ||
-            "未知歌手",
-          album: (song.album || song.al)?.name || "未知专辑",
+            "Unknown Artist",
+          album: (song.album || song.al)?.name || "Unknown Album",
           cover: (song.album || song.al)?.picUrl || null,
           duration: song.duration || (song.dt ? song.dt / 1000 : 0),
         };
 
         if (metadata.id !== trackId.toString()) {
-          console.error("元数据ID不匹配:", {
+          console.error("Metadata id mismatch:", {
             expected: trackId,
             got: metadata.id,
           });
-          throw new Error("元数据ID不匹配");
+          throw new Error("Metadata id mismatch");
         }
 
         metadataCache.set(key, { data: metadata, ts: Date.now() });
         return metadata;
       } catch (error) {
-        console.error("获取歌曲详情失败:", error);
+        console.error("Song detail fetch failed:", error);
         const fallback = {
           id: key,
-          title: `歌曲 ID: ${trackId}`,
-          artist: "未知歌手",
-          album: "未知专辑",
+          title: `Track ID: ${trackId}`,
+          artist: "Unknown Artist",
+          album: "Unknown Album",
           cover: null,
           duration: 0,
         };
@@ -169,7 +161,7 @@ export class NeteaseMusicSource extends MusicSourceInterface {
   }
 
   /**
-   * song/url 路由返回的是同源代理音频流（非 JSON），此处只返回可供 audio 使用的路径。
+   * song/url returns a same-origin proxied stream (not JSON); path is for <audio> src only.
    */
   async getAudioUrl(trackId, level = "lite") {
     const id = encodeURIComponent(trackId);

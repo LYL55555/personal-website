@@ -42,7 +42,7 @@ export const useAudioHover = (audioSrc) => {
           }, 50);
         })
         .catch((error) => {
-          console.log("音频播放失败:", error);
+          console.log("Audio playback failed:", error);
         });
       isPlayingRef.current = true;
     }

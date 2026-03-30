@@ -1,11 +1,11 @@
 import Image from "next/image";
 
 const WindowContent = ({ id }) => {
-  // 检测是否为移动设备
+  // Mobile viewport flag
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const isVerySmall = typeof window !== 'undefined' && window.innerWidth < 480;
   
-  // 根据屏幕大小调整图片尺寸
+  // Image dimensions from breakpoint
   const imageWidth = isVerySmall ? 180 : isMobile ? 220 : 300;
   const imageHeight = isVerySmall ? 120 : isMobile ? 150 : 200;
   

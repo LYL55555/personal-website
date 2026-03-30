@@ -179,7 +179,7 @@ const AboutSection = () => {
 
       {/* Theme CSS variables for this section */}
       <style jsx global>{`
-        /* 浅色主题 */
+        /* Light theme tokens */
         .light-theme {
           --color-primary: #2075c7;
           --color-secondary: #6236ff;
@@ -193,7 +193,7 @@ const AboutSection = () => {
           --shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* 深色主题 */
+        /* Dark theme tokens */
         .dark-theme {
           --color-primary: #58a6ff;
           --color-secondary: #d2a8ff;
@@ -207,7 +207,7 @@ const AboutSection = () => {
           --shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* 应用CSS变量的工具类 */
+        /* Utility classes wired to CSS variables */
         .theme-text {
           color: var(--color-text);
         }

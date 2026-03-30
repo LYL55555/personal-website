@@ -18,12 +18,12 @@ import { BiLogoVisualStudio } from "react-icons/bi";
 import { FaAws } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-// 计算两点之间的距离
+// Euclidean distance between two points
 function calculateDistance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-// 生成新的随机位置
+// Sample a new random position
 function generatePosition(minRadius, maxRadius, minAngle, maxAngle) {
   const radius = Math.random() * (maxRadius - minRadius) + minRadius;
   const rotation = Math.random() * (maxAngle - minAngle) + minAngle;
@@ -232,13 +232,13 @@ export function DevopsQuadrant({ isDarkMode }) {
         let position;
 
         while (attempts < maxAttempts) {
-          // 生成随机角度（严格在右下象限内）
+          // Random angle inside bottom-right quadrant
           let newAngle = MIN_ANGLE + Math.random() * (MAX_ANGLE - MIN_ANGLE);
-          // 生成随机半径（在最小和最大半径之间）
+          // Random radius between min and max
           let newRadius =
             MIN_RADIUS + Math.random() * (MAX_RADIUS - MIN_RADIUS);
 
-          // 检查是否与已使用的位置太接近
+          // Reject if too close to existing bubbles
           let tooClose = false;
           for (const pos of calculatedPositions) {
             const angleDiff = Math.abs(pos.rotation - newAngle);
@@ -260,7 +260,7 @@ export function DevopsQuadrant({ isDarkMode }) {
           attempts++;
         }
 
-        // 如果找不到合适的位置，使用基础位置（确保在象限内）
+        // Fallback grid slot if no free spot
         if (!position) {
           position = {
             radius: Math.min(

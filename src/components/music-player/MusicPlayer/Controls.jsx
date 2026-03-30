@@ -18,7 +18,7 @@ const Controls = ({
 
   return (
     <div className={`flex items-center shrink-0 ${gap}`}>
-      {/* 上一首按钮 */}
+      {/* Previous track */}
       <motion.button
         type="button"
         onClick={onPlayPrevious}
@@ -49,7 +49,7 @@ const Controls = ({
         </svg>
       </motion.button>
 
-      {/* 播放/暂停按钮 */}
+      {/* Play / pause */}
       <motion.button
         type="button"
         onClick={onTogglePlay}
@@ -88,7 +88,7 @@ const Controls = ({
         </svg>
       </motion.button>
 
-      {/* 下一首按钮 */}
+      {/* Next track */}
       <motion.button
         type="button"
         onClick={onPlayNext}

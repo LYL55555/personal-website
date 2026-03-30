@@ -22,7 +22,7 @@ export async function GET(request) {
     });
 
     if (res.status !== 200) {
-      throw new Error(`获取歌词失败: ${res.status}`);
+      throw new Error(`Lyric request failed: ${res.status}`);
     }
 
     return Response.json(res.body);
@@ -30,7 +30,7 @@ export async function GET(request) {
     return Response.json(
       {
         code: 500,
-        message: error.message || "获取歌词失败",
+        message: error.message || "Failed to fetch lyrics",
       },
       { status: 500 },
     );

@@ -5,7 +5,7 @@ export async function GET(request) {
   const ids = searchParams.get("ids");
 
   if (!ids) {
-    return Response.json({ error: "缺少歌曲ID参数" }, { status: 400 });
+    return Response.json({ error: "Missing song id" }, { status: 400 });
   }
 
   try {
@@ -16,20 +16,20 @@ export async function GET(request) {
     });
 
     if (res.status !== 200 || !res.body) {
-      throw new Error(`歌曲详情请求失败: ${res.status}`);
+      throw new Error(`Song detail request failed: ${res.status}`);
     }
 
     return Response.json(res.body);
   } catch (error) {
-    console.error("获取歌曲详情失败:", error);
+    console.error("Song detail failed:", error);
     return Response.json(
       {
         songs: [
           {
             id: ids,
-            name: `歌曲 ID: ${ids}`,
-            artists: [{ name: "未知歌手" }],
-            album: { name: "未知专辑", picUrl: null },
+            name: `Track ID: ${ids}`,
+            artists: [{ name: "Unknown Artist" }],
+            album: { name: "Unknown Album", picUrl: null },
             duration: 0,
           },
         ],

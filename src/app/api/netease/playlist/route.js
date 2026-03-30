@@ -26,13 +26,13 @@ export async function GET(request) {
 
     if (res.status !== 200 || !res.body || res.body.code !== 200) {
       throw new Error(
-        `获取歌单失败: ${res.status} / code ${res.body?.code ?? "?"}`
+        `Playlist fetch failed: ${res.status} / code ${res.body?.code ?? "?"}`
       );
     }
 
     const playlist = res.body.playlist;
     if (!playlist) {
-      throw new Error("歌单数据为空");
+      throw new Error("Empty playlist payload");
     }
 
     const mergedData = {
@@ -48,7 +48,7 @@ export async function GET(request) {
     return Response.json(
       {
         code: 500,
-        message: error.message || "获取歌单失败",
+        message: error.message || "Failed to fetch playlist",
       },
       { status: 500 }
     );
