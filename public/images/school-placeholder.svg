@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="120" viewBox="0 0 320 120" role="img" aria-label="School placeholder">
-  <rect width="320" height="120" rx="12" fill="#eee8d5"/>
-  <rect x="24" y="28" width="64" height="64" rx="8" fill="#268bd2" opacity="0.85"/>
-  <text x="104" y="58" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#002b36">Carrot Valley Institute</text>
-  <text x="104" y="84" font-family="system-ui,sans-serif" font-size="13" fill="#586e75">Replace with your school name / logo</text>
-</svg>

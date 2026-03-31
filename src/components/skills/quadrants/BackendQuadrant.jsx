@@ -1,8 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import * as Si from "react-icons/si";
-import { TbBrandFlask } from "react-icons/tb";
-import { FaJava } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { BACKEND_SKILLS } from "@/data/skillsData";
 

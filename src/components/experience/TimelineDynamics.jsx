@@ -5,7 +5,6 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import TIMELINE_ITEMS from "@/data/timelineItems";
-import Image from "next/image";
 import { useTheme } from "@/context/ThemeContext";
 import "react-vertical-timeline-component/style.min.css";
 import "../../styles/timeline.css";
@@ -151,14 +150,16 @@ function TimelineDynamics() {
                 isDarkMode ? "text-solarized-ghWash" : "text-solarized-ghInk"
               }`}
             >
-              <Image
-                height={80}
-                width={80}
-                src={selectedMilestone.logo}
-                alt={`${selectedMilestone.title} logo`}
-                className="w-20 h-20 rounded-full object-cover mb-4 bg-white p-1"
-                priority={true}
-              />
+              <div
+                className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-opacity-20 ${
+                  isDarkMode ? "bg-solarized-blue text-solarized-ghWash" : "bg-solarized-cyan text-solarized-ghInk"
+                }`}
+                aria-hidden
+              >
+                <span className="text-lg font-semibold">
+                  {selectedMilestone.title?.charAt(0) || ""}
+                </span>
+              </div>
               <h3
                 className={`text-xl font-bold text-center ${
                   isDarkMode ? "text-solarized-ghWash" : "text-solarized-ghInk"
@@ -269,18 +270,11 @@ const TimelineItem = memo(({ item, index, onClick, isDarkMode, visible }) => {
                 : ""
             }`}
           >
-            <Image
-              src={item.logo}
-              alt={`${item.title} logo`}
-              className="w-full h-full rounded-full object-cover"
-              width={40}
-              height={40}
-              sizes="(max-width: 768px) 40px, 100px"
-              priority={index < 2}
-              loading={index < 2 ? "eager" : "lazy"}
-              onError={(e) => {
-                e.target.src = "https://via.placeholder.com/100";
-              }}
+            <div
+              className={`w-full h-full rounded-full bg-opacity-20 ${
+                isDarkMode ? "bg-solarized-blue" : "bg-solarized-cyan"
+              }`}
+              aria-hidden
             />
           </div>
         }

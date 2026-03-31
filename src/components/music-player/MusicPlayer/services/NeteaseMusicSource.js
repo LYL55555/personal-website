@@ -7,7 +7,7 @@ const metadataCache = new Map();
 const metadataInflight = new Map();
 
 const DEFAULT_PLAYLIST =
-  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "13583418396";
+  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "2635250005";
 
 export class NeteaseMusicSource extends MusicSourceInterface {
   constructor(playlistId = DEFAULT_PLAYLIST) {
@@ -22,26 +22,38 @@ export class NeteaseMusicSource extends MusicSourceInterface {
 
   async getPlaylist() {
     try {
-      const response = await fetch(
+      // Try to fetch as playlist first
+      const playlistResponse = await fetch(
         `${this.apiBaseUrl}/playlist?id=${this.playlistId}`,
       );
-      if (!response.ok) throw new Error("Failed to fetch Netease playlist");
-      const data = await response.json();
-
+      
       let tracks = [];
+      if (playlistResponse.ok) {
+        const data = await playlistResponse.json();
+        if (data.result && Array.isArray(data.result.tracks)) {
+          tracks = data.result.tracks;
+        } else if (Array.isArray(data.tracks)) {
+          tracks = data.tracks;
+        } else if (Array.isArray(data.songs)) {
+          tracks = data.songs;
+        }
+      }
 
-      if (data.result && Array.isArray(data.result.tracks)) {
-        tracks = data.result.tracks;
-      } else if (Array.isArray(data.tracks)) {
-        tracks = data.tracks;
-      } else if (Array.isArray(data.songs)) {
-        tracks = data.songs;
-      } else if (data.songs && Array.isArray(data.songs)) {
-        tracks = data.songs;
+      // If no tracks found, try to fetch as a single song detail
+      if (!tracks.length) {
+        const songResponse = await fetch(
+          `${this.apiBaseUrl}/song/detail?ids=${this.playlistId}`,
+        );
+        if (songResponse.ok) {
+          const songData = await songResponse.json();
+          if (songData.songs && Array.isArray(songData.songs) && songData.songs.length > 0) {
+            tracks = songData.songs;
+          }
+        }
       }
 
       if (!tracks.length) {
-        throw new Error("Invalid or empty playlist payload");
+        throw new Error("Invalid or empty playlist/song payload");
       }
 
       return tracks.map((track) => {

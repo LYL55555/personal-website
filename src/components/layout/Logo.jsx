@@ -9,16 +9,8 @@ const Logo = ({ isFooter = false }) => {
   
   return (
     <div className="flex justify-center items-center">
-      <div className="relative w-16 h-16 md:w-20 md:h-20">
-        <Image
-          src="/images/logo-template.svg"
-          alt="Site logo placeholder"
-          fill
-          sizes="(max-width: 768px) 64px, 80px"
-          style={{ objectFit: "contain" }}
-          className={`transition-opacity duration-300 ${isDarkMode ? 'opacity-100' : 'opacity-90'}`}
-          priority
-        />
+      <div className="text-2xl md:text-3xl font-bold tracking-tighter text-solarized-blue dark:text-solarized-blue">
+        LYL
       </div>
     </div>
   );

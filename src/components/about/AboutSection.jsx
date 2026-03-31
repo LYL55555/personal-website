@@ -33,14 +33,13 @@ const AboutSection = () => {
         <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 md:items-start">
           <div className="md:col-span-4 flex justify-center md:justify-start md:sticky md:top-24 shrink-0">
             <div className="w-full max-w-[300px] relative rounded-xl overflow-hidden theme-shadow ring-1 ring-black/[0.06] dark:ring-white/10">
-              <Image
-                src="/images/avatar-placeholder.svg"
-                alt="Profile placeholder — Chiikawa Usagi (うさぎ) theme for this template"
+            <Image
+                src="/images/main-pic.JPG"
+                alt="Profile photo"
                 width={300}
                 height={300}
                 priority
                 className="w-full h-auto rounded-xl transition-transform duration-300 hover:scale-[1.02]"
-                unoptimized
               />
             </div>
           </div>
@@ -52,60 +51,15 @@ const AboutSection = () => {
 
             <div className="space-y-4 sm:space-y-5 text-sm sm:text-base lg:text-lg text-left leading-relaxed text-pretty theme-text">
               <p>
-                I am <span className="font-semibold">Usagi</span> (うさぎ) — the
-                loud, carrot-loving rabbit from{" "}
-                <span className="font-semibold">Chiikawa</span> (ちいかわ) by
-                Nagano — used here only as a{" "}
-                <span className="font-semibold">template persona</span>. In real
-                life, replace this with your name and story. The silly school name{" "}
-                <span className="font-semibold">Carrot Valley Institute</span> and{" "}
-                <span className="font-semibold">Example City</span> are placeholders
-                too.
+                I am an <span className="font-semibold text-solarized-blue">MS in Data Science</span> student at <span className="font-semibold">Brown University</span>. With a background in <span className="font-semibold">Mathematics, Economics, and Statistics</span> (and a <span className="font-semibold">CS specialization</span>) from <span className="font-semibold">UCLA</span>, I specialize in <span className="font-semibold italic text-solarized-blue">building AI systems</span> for <span className="font-medium text-solarized-blue">valuation intelligence</span>, <span className="font-medium text-solarized-blue">hybrid retrieval (RAG)</span>, and <span className="font-medium text-solarized-blue">trustworthy machine learning</span>.
               </p>
 
               <p>
-                My work focuses on{" "}
-                <span className="font-semibold theme-secondary">
-                  reliable web services
-                </span>{" "}
-                and{" "}
-                <span className="font-semibold theme-secondary">
-                  thoughtful product UX
-                </span>
-                . I like shipping end-to-end features with{" "}
-                <span className="font-medium theme-primary">
-                  React on the client, a typed API layer, and a solid database
-                  underneath
-                </span>
-                — swap this stack for whatever you actually use.
+                Currently, as a <span className="font-semibold text-solarized-blue">Machine Learning Engineer</span> at <a href="https://qandq.ai/" target="_blank" rel="noopener noreferrer" className="font-bold underline decoration-solarized-blue/30 hover:decoration-solarized-blue decoration-2 transition-all">Q&Q AI</a>, I develop <span className="font-semibold">LLM-driven pipelines</span> and <span className="font-semibold text-solarized-blue">agent systems</span> that <span className="italic">automate complex financial reasoning</span>. My research interests include <span className="font-semibold text-solarized-blue">continual learning</span>, <span className="font-semibold text-solarized-blue">vision-language models</span>, and <span className="font-semibold text-solarized-blue">red teaming AI policies</span>.
               </p>
 
               <p>
-                I have listed{" "}
-                <span className="font-semibold theme-primary">sample</span> roles
-                and projects in the timeline so the layout stays interesting.
-                Delete what you do not need and paste your true milestones
-                instead.
-              </p>
-
-              <p>
-                Outside of code, the Chiikawa Usagi bit pairs well with carrots,
-                curry rice, and yelling &quot;ウラ&quot; for no reason — all joke
-                filler for this template. Use this space for your real hobbies.
-              </p>
-              <p className="mt-4 sm:mt-5 text-sm sm:text-base not-italic">
-                <Link
-                  href="/hobbies"
-                  className="group inline-flex items-center gap-1.5 font-medium theme-primary underline-offset-4 decoration-1 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-card-bg)] rounded-sm"
-                >
-                  <span>More about my hobbies</span>
-                  <span
-                    className="transition-transform group-hover:translate-x-0.5"
-                    aria-hidden
-                  >
-                    →
-                  </span>
-                </Link>
+                Beyond work, I'm interested in <span className="font-medium">Formula 1 and karting</span>, and enjoy <span className="font-medium">music and photography</span> during travel, often capturing systems and patterns not just in data, but in the real world.
               </p>
             </div>
           </div>
@@ -121,15 +75,6 @@ const AboutSection = () => {
             <span className="flex items-center gap-1.5">
               <MdWork className="text-lg" />
               <span>Experience</span>
-            </span>
-          </TabButton>
-          <TabButton
-            selectTab={() => handleTabChange("skills")}
-            active={tab === "skills"}
-          >
-            <span className="flex items-center gap-1.5">
-              <GiSkills className="text-lg" />
-              <span>Skills</span>
             </span>
           </TabButton>
           <TabButton

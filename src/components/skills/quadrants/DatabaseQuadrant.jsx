@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import * as Si from "react-icons/si";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { DATABASE_SKILLS } from "@/data/skillsData";
 
 const calculateDistance = (x1, y1, x2, y2) => {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
@@ -15,7 +15,7 @@ const generatePosition = (skill) => {
   return { radius, rotation };
 };
 
-const isValidPosition = (position, positions, skills, index, minDistance) => {
+const isValidPosition = (position, positions, index, minDistance) => {
   const x1 = Math.cos((position.rotation * Math.PI) / 180) * position.radius;
   const y1 = Math.sin((position.rotation * Math.PI) / 180) * position.radius;
 
@@ -89,94 +89,47 @@ const SkillItem = ({ skill, isDarkMode, position, index }) => {
   );
 };
 
-const DATABASE_SKILLS = [
-  {
-    name: "MongoDB",
-    Icon: Si.SiMongodb,
-    minRadius: 80,
-    maxRadius: 120,
-    minAngle: 100,
-    maxAngle: 120,
-    lightColor: "#47A248",
-    darkColor: "#59B45A",
-  },
-  {
-    name: "MySQL",
-    Icon: Si.SiMysql,
-    minRadius: 100,
-    maxRadius: 140,
-    minAngle: 140,
-    maxAngle: 160,
-    lightColor: "#4479A1",
-    darkColor: "#5C91B9",
-  },
-  {
-    name: "Prisma",
-    Icon: Si.SiPrisma,
-    minRadius: 80,
-    maxRadius: 120,
-    minAngle: 120,
-    maxAngle: 140,
-    lightColor: "#2D3748",
-    darkColor: "#3D4B5F",
-  },
-  {
-    name: "PostgreSQL",
-    Icon: Si.SiPostgresql,
-    minRadius: 160,
-    maxRadius: 200,
-    minAngle: 160,
-    maxAngle: 175,
-    lightColor: "#336791",
-    darkColor: "#4479A3",
-  },
-];
-
 const MIN_DISTANCE = 65;
 
 export function DatabaseQuadrant({ isDarkMode }) {
   const [positions, setPositions] = useState([]);
-  const MAX_RADIUS = 180; // Tighter outer bound
-  const MIN_RADIUS = 60; // Inner bound
-  const MIN_ANGLE = 110; // Bottom-left wedge
+  const MIN_ANGLE = 110; 
   const MAX_ANGLE = 160;
 
   const generateOptimalPositions = useCallback(() => {
     const newPositions = [];
-    let attempts = 0;
     const maxAttempts = 200;
 
     for (let i = 0; i < DATABASE_SKILLS.length; i++) {
+      const skill = DATABASE_SKILLS[i];
       let position;
       let isValid = false;
-      attempts = 0;
+      let attempts = 0;
+
+      const skillRange = {
+        minRadius: skill.baseRadius - 20,
+        maxRadius: skill.baseRadius + 20,
+        minAngle: Math.max(MIN_ANGLE, skill.baseAngle - 10),
+        maxAngle: Math.min(MAX_ANGLE, skill.baseAngle + 10)
+      };
 
       while (!isValid && attempts < maxAttempts) {
-        position = generatePosition(DATABASE_SKILLS[i]);
-        isValid = isValidPosition(
-          position,
-          newPositions,
-          DATABASE_SKILLS,
-          i,
-          MIN_DISTANCE,
-        );
+        position = {
+          radius: Math.random() * (skillRange.maxRadius - skillRange.minRadius) + skillRange.minRadius,
+          rotation: Math.random() * (skillRange.maxAngle - skillRange.minAngle) + skillRange.minAngle
+        };
+        isValid = isValidPosition(position, newPositions, i, MIN_DISTANCE);
         attempts++;
       }
 
-      newPositions.push(
-        position || {
-          radius: DATABASE_SKILLS[i].minRadius,
-          rotation: DATABASE_SKILLS[i].minAngle,
-        },
-      );
+      newPositions.push(position || { radius: skill.baseRadius, rotation: skill.baseAngle });
     }
 
     return newPositions;
   }, []);
 
   useEffect(() => {
-    const initialPositions = generateOptimalPositions();
-    setPositions(initialPositions);
+    setPositions(generateOptimalPositions());
   }, [generateOptimalPositions]);
 
   return (
@@ -186,12 +139,7 @@ export function DatabaseQuadrant({ isDarkMode }) {
           key={skill.name}
           skill={skill}
           isDarkMode={isDarkMode}
-          position={
-            positions[index] || {
-              radius: skill.minRadius,
-              rotation: skill.minAngle,
-            }
-          }
+          position={positions[index] || { radius: skill.baseRadius, rotation: skill.baseAngle }}
           index={index}
         />
       ))}

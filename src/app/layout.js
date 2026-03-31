@@ -4,12 +4,10 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { MusicPlayerProvider } from "@/components/music-player/MusicPlayer";
 import { ThemeProvider } from "@/context/ThemeContext";
-import CustomCursor from "@/components/CustomCursor";
 
 export const metadata = {
-  title: "Portfolio Template (Chiikawa Usagi theme)",
-  description:
-    "Next.js portfolio starter. Placeholder persona: Usagi (うさぎ) from Chiikawa (ちいかわ) — replace with your own content.",
+  title: "Yanle (Tony) Lyu | Portfolio",
+  description: "Academic and Builder Portfolio of Yanle (Tony) Lyu",
 };
 
 const noFlashStyle = `
@@ -80,7 +78,6 @@ export default function RootLayout({ children }) {
                 {children}
               </main>
               <Footer />
-              <CustomCursor />
             </div>
           </MusicPlayerProvider>
         </ThemeProvider>

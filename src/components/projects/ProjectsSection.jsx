@@ -17,7 +17,7 @@ const ProjectsSection = () => {
   };
 
   const filteredProjects = PROJECT_DATA.filter((project) =>
-    project.tag.includes(tag)
+    tag === "All" || project.tag.includes(tag)
   );
 
   const cardVariants = {
@@ -27,40 +27,7 @@ const ProjectsSection = () => {
 
   return (
     <section id="projects" className="flex flex-col items-center">
-      <div className={`flex flex-wrap justify-center items-center gap-2 sm:gap-3 py-6 sm:py-8 transition-colors duration-300
-                    ${isDarkMode ? 'text-solarized-base1' : 'text-solarized-base03'}`}>
-        <ProjectTag
-          onClick={handleTagChange}
-          name="All"
-          isSelected={tag === "All"}
-        />
-        <ProjectTag
-          onClick={handleTagChange}
-          name="Web"
-          isSelected={tag === "Web"}
-        />
-        <ProjectTag
-          onClick={handleTagChange}
-          name="Systems"
-          isSelected={tag === "Systems"}
-        />
-        <ProjectTag
-          onClick={handleTagChange}
-          name="ML"
-          isSelected={tag === "ML"}
-        />
-        <ProjectTag
-          onClick={handleTagChange}
-          name="Data"
-          isSelected={tag === "Data"}
-        />
-        <ProjectTag
-          onClick={handleTagChange}
-          name="Mobile"
-          isSelected={tag === "Mobile"}
-        />
-      </div>
-      <ul ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12 w-full max-w-[1200px]">
+      <ul ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-12 w-full max-w-[1200px] mt-8">
         {filteredProjects.map((project, index) => (
           <motion.li
             key={index}

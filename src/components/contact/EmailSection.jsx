@@ -59,9 +59,8 @@ const EmailSection = () => {
       <div className="w-full max-w-lg text-center">
         <p className={`text-sm sm:text-base mb-8 px-4 sm:px-0 transition-colors duration-300
                     ${isDarkMode ? 'text-solarized-base0' : 'text-solarized-base01'}`}>
-          I&apos;m currently looking for new opportunities. Whether you have a
-          question or just want to say hi, I&apos;ll try my best to get back to
-          you! 😊
+          I am always open to discussing new projects, research opportunities, or potential collaborations. 
+          Feel free to reach out to me!
         </p>
       </div>
 
@@ -157,27 +156,23 @@ const EmailSection = () => {
             </div>
 
             <div className="flex justify-center items-center transform scale-90 sm:scale-100">
-              {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
-                <ReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                  onChange={handleRecaptchaChange}
-                  className="g-recaptcha"
-                  theme={isDarkMode ? "dark" : "light"}
-                  hl="en"
-                  asyncScriptOnLoad={() => {
-                    console.log('reCAPTCHA script loaded');
-                  }}
-                  onErrored={() => {
-                    console.error('reCAPTCHA failed to load');
-                  }}
-                  onExpired={() => {
-                    console.log('reCAPTCHA expired');
-                    setIsVerified(false);
-                  }}
-                />
-              ) : (
-                <div className="text-red-500">reCAPTCHA site key is missing</div>
-              )}
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"}
+                onChange={handleRecaptchaChange}
+                className="g-recaptcha"
+                theme={isDarkMode ? "dark" : "light"}
+                hl="en"
+                asyncScriptOnLoad={() => {
+                  console.log('reCAPTCHA script loaded');
+                }}
+                onErrored={() => {
+                  console.error('reCAPTCHA failed to load');
+                }}
+                onExpired={() => {
+                  console.log('reCAPTCHA expired');
+                  setIsVerified(false);
+                }}
+              />
             </div>
 
             <button

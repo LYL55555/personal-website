@@ -15,7 +15,7 @@ const TabButton = ({ children, selectTab, active }) => {
       type="button"
       className={`relative px-4 py-2 rounded-lg text-sm sm:text-base font-medium ease-in-out focus:outline-none focus:ring-2 focus:ring-solarized-blueUi/50 dark:focus:ring-solarized-accentGh/50 motion-reduce:transition-none transition-[transform,box-shadow,border-color] duration-200 ${
         active
-          ? "border-2 border-solarized-blue bg-solarized-base2 text-solarized-base03 shadow-md dark:border-solarized-blue dark:bg-solarized-base02 dark:text-solarized-base3 dark:shadow-lg"
+          ? "border-2 border-solarized-blue bg-solarized-base2 text-solarized-base1 shadow-md dark:border-solarized-blue dark:bg-solarized-base02 dark:text-solarized-base1 dark:shadow-lg"
           : "border-2 border-transparent text-solarized-base01 hover:bg-solarized-base1/15 hover:text-solarized-blueUi hover:-translate-y-0.5 dark:text-solarized-base1 dark:hover:bg-solarized-base01/25 dark:hover:text-solarized-base3"
       }`}
       whileHover={{ scale: active ? 1 : 1.02 }}

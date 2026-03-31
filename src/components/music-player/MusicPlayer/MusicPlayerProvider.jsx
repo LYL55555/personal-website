@@ -20,7 +20,7 @@ import { useLyricCache } from "./hooks/useLyricCache";
 const MUSIC_PLAYER_MINIMIZED_KEY = "portfolioMusicPlayerMinimized";
 
 const DEFAULT_NETEASE_PLAYLIST_ID =
-  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "13583418396";
+  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "2635250005";
 
 export function MusicPlayerProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -304,9 +304,9 @@ export function MusicPlayerProvider({ children }) {
         const response = await fetch(`/api/netease/playlist?id=${playlistId}`);
         if (response.ok) {
           const data = await response.json();
-          if (data.result) {
+          if (data.result && data.result.name) {
             setPlaylistInfo({
-              name: data.result.name || "Unknown Playlist",
+              name: data.result.name,
               description: data.result.description || "",
               trackCount: data.result.trackCount || pl.length,
               creator: data.result.creator?.nickname || "Unknown User",
@@ -316,14 +316,31 @@ export function MusicPlayerProvider({ children }) {
           }
         }
 
+        // If playlist fetch fails, try song detail for info
+        const songResponse = await fetch(`/api/netease/song/detail?ids=${playlistId}`);
+        if (songResponse.ok) {
+          const songData = await songResponse.json();
+          if (songData.songs && songData.songs[0]) {
+            const song = songData.songs[0];
+            setPlaylistInfo({
+              name: song.name,
+              trackCount: 1,
+              description: "Single Track",
+              creator: (song.ar || song.artists)?.[0]?.name || "Unknown Artist",
+              coverImgUrl: (song.al || song.album)?.picUrl,
+            });
+            return;
+          }
+        }
+
         setPlaylistInfo({
-          name: "Playlist " + playlistId,
+          name: "Music ID: " + playlistId,
           trackCount: pl.length,
           description: "",
         });
       } catch (error) {
         setPlaylistInfo({
-          name: "Playlist " + playlistId,
+          name: "Music ID: " + playlistId,
           trackCount: pl.length,
           description: "",
         });
@@ -580,15 +597,7 @@ export function MusicPlayerProvider({ children }) {
                     </div>
                   </button>
 
-                  {playlistInfo && (
-                    <div
-                      className={`text-xs hidden sm:block ${
-                        isDarkMode ? "text-[#93a1a1]" : "text-[#586e75]"
-                      }`}
-                    >
-                      {playlistInfo.name}
-                    </div>
-                  )}
+                  {/* 这里不再展示 playlist 标题，避免出现“某某喜欢的音乐”之类的奇怪文本 */}
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">

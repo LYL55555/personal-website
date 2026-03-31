@@ -3,33 +3,34 @@ const colors = require("tailwindcss/colors");
 
 /** Solarized + site tokens (aligns with layout / components using text-solarized-*) */
 const solarized = {
-  base03: "#002b36",
-  base02: "#073642",
-  base01: "#586e75",
-  base00: "#657b83",
-  base0: "#839496",
-  base1: "#93a1a1",
-  base2: "#eee8d5",
-  base3: "#fdf6e3",
-  base03Deep: "#00212b",
-  yellow: "#b58900",
-  orange: "#cb4b16",
-  red: "#dc322f",
-  magenta: "#d33682",
-  violet: "#6c71c4",
-  blue: "#268bd2",
-  cyan: "#2aa198",
-  green: "#859900",
-  accentGh: "#58a6ff",
-  blueUi: "#2075c7",
-  ghBorder: "#30363d",
-  ghWash: "#e6edf3",
-  ghInk: "#1f2328",
-  ghMuted: "#8b949e",
-  ghDim: "#656d76",
-  borderLight: "#d0d7de",
-  cardWash: "#f6f8fa",
-  mist: "#657b83",
+  /* 全局新配色：深蓝黑 + 石墨卡片 + 深蓝灰边框 */
+  base03: "#0B0F14", // 背景主色（dark）
+  base02: "#111827", // 卡片背景（dark）
+  base01: "#1F2937", // 边框/弱对比
+  base00: "#9CA3AF", // 次文字
+  base0: "#9CA3AF", // 为兼容旧 token，次文字同值
+  base1: "#E5E7EB", // 主文字
+  base2: "#111827", // 兼容旧 light 模式 token
+  base3: "#0B0F14", // 兼容旧 light 模式 token
+  base03Deep: "#0A0E13",
+  yellow: "#F59E0B",
+  orange: "#F97316",
+  red: "#EF4444",
+  magenta: "#EC4899",
+  violet: "#8B5CF6",
+  blue: "#3B82F6", // 强调色（主蓝）
+  cyan: "#3B82F6", // 兼容旧 cyan token
+  green: "#22C55E",
+  accentGh: "#3B82F6",
+  blueUi: "#3B82F6",
+  ghBorder: "#1F2937",
+  ghWash: "#111827",
+  ghInk: "#0B0F14",
+  ghMuted: "#9CA3AF",
+  ghDim: "#9CA3AF",
+  borderLight: "#1F2937",
+  cardWash: "#111827",
+  mist: "#9CA3AF",
 };
 
 module.exports = {

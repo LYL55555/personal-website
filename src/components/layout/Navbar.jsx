@@ -11,19 +11,31 @@ import { motion } from 'framer-motion';
 const navLinks = [
   {
     title: "About",
-    path: "/about",
+    path: "#about",
+  },
+  {
+    title: "Experience",
+    path: "#experience",
+  },
+  {
+    title: "Research",
+    path: "#research",
   },
   {
     title: "Projects",
-    path: "/projects",
+    path: "#projects",
+  },
+  {
+    title: "Publications",
+    path: "#publications",
+  },
+  {
+    title: "Leadership",
+    path: "#leadership",
   },
   {
     title: "Contact",
-    path: "/contact",
-  },
-  {
-    title: "Hobbies",
-    path: "/hobbies",
+    path: "#contact",
   },
 ];
 
@@ -71,7 +83,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center">
           <div className="flex items-center gap-8 mr-6">
             <motion.a
-              href="https://github.com/your-username"
+              href="https://github.com/LYL55555"
               target="_blank"
               rel="noopener noreferrer"
               className={`transition-colors duration-300
@@ -92,7 +104,7 @@ const Navbar = () => {
             </motion.a>
 
             <motion.a
-              href="https://www.linkedin.com/in/your-profile"
+              href="https://www.linkedin.com/in/yanlelyu"
               target="_blank"
               rel="noopener noreferrer"
               className={`transition-colors duration-300
@@ -112,64 +124,43 @@ const Navbar = () => {
               </svg>
             </motion.a>
 
-            <motion.a
-              href="https://www.instagram.com/yourusername"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`transition-colors duration-300
+            <motion.button
+              onClick={toggleTheme}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2
                 ${isDarkMode 
-                  ? 'text-solarized-base1 hover:text-solarized-base3' 
-                  : 'text-solarized-base01 hover:text-solarized-base03'}`}
-              whileHover={{ scale: 1.1 }}
+                  ? 'bg-solarized-base03Deep border-solarized-base01 text-solarized-base1' 
+                  : 'bg-solarized-base2 border-solarized-base1 text-solarized-base01'}`}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7"
-                fill="currentColor"
-                viewBox="0 0 24 24"
+              <span className="text-sm font-medium">
+                {isDarkMode ? 'Dark' : 'Light'}
+              </span>
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-5 w-5"
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
               >
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                {isDarkMode ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
+                  />
+                )}
               </svg>
-            </motion.a>
+            </motion.button>
           </div>
-
-          <motion.button
-            onClick={toggleTheme}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2
-              ${isDarkMode 
-                ? 'bg-solarized-base03Deep border-solarized-base01 text-solarized-base1' 
-                : 'bg-solarized-base2 border-solarized-base1 text-solarized-base01'}`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="text-sm font-medium">
-              {isDarkMode ? 'Dark' : 'Light'}
-            </span>
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-5 w-5"
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              {isDarkMode ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
-                />
-              )}
-            </svg>
-          </motion.button>
         </div>
 
         <div className="md:hidden">
@@ -261,7 +252,7 @@ const Navbar = () => {
                 </svg>
               </motion.button>
               <motion.a
-                href="https://github.com/your-username"
+                href="https://github.com/LYL55555"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`transition-colors duration-300
@@ -281,7 +272,7 @@ const Navbar = () => {
                 </svg>
               </motion.a>
               <motion.a
-                href="https://www.linkedin.com/in/your-profile"
+                href="https://www.linkedin.com/in/yanle-lyu"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`transition-colors duration-300
@@ -298,26 +289,6 @@ const Navbar = () => {
                   viewBox="0 0 24 24"
                 >
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                </svg>
-              </motion.a>
-              <motion.a
-                href="https://www.instagram.com/yourusername"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`transition-colors duration-300
-                  ${isDarkMode 
-                    ? 'text-solarized-base1 hover:text-solarized-base3' 
-                    : 'text-solarized-base01 hover:text-solarized-base03'}`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
               </motion.a>
             </div>

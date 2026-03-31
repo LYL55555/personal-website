@@ -1,83 +1,28 @@
 "use client";
-import React, { useState } from "react";
-import { TypeAnimation } from "react-type-animation";
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-/** Gradient text matches `html.dark`; avoid ThemeContext for this block (hydration mismatch before mount). */
-const helloGradientLight = {
-  backgroundImage:
-    "linear-gradient(90deg, #00212b 0%, #0f5494 42%, #7a5200 100%)",
-  WebkitBackgroundClip: "text",
-  backgroundClip: "text",
-  color: "transparent",
-};
-
-const helloGradientDark = {
-  backgroundImage:
-    "linear-gradient(90deg, #eee8d5 0%, #79c0ff 38%, #2aa198 100%)",
-  WebkitBackgroundClip: "text",
-  backgroundClip: "text",
-  color: "transparent",
-};
-
 const HeroTextContent = () => {
-  const [showTooltip, setShowTooltip] = useState(false);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="w-full col-span-12 sm:col-span-6 lg:col-span-7 text-center sm:text-left"
+      className="w-full text-center sm:text-left"
     >
       <h1 className="mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-solarized-base03 dark:text-solarized-base3">
-        <span className="sr-only">Hello, I&apos;m </span>
-        <span
-          className="relative inline-block min-h-[1.1em] align-bottom"
-          aria-hidden="true"
-        >
-          <span className="invisible whitespace-pre">Hello, I&apos;m </span>
-          <span
-            className="absolute left-0 top-0 whitespace-pre opacity-100 transition-opacity duration-300 ease-out dark:opacity-0"
-            style={helloGradientLight}
-          >
-            Hello, I&apos;m{" "}
-          </span>
-          <span
-            className="absolute left-0 top-0 whitespace-pre opacity-0 transition-opacity duration-300 ease-out dark:opacity-100"
-            style={helloGradientDark}
-          >
-            Hello, I&apos;m{" "}
-          </span>
-        </span>
-        <br className="hidden sm:block" />
-        <TypeAnimation
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-solarized-base03 dark:text-solarized-base3"
-          sequence={[
-            "Usagi (Chiikawa)",
-            1000,
-            "Full Stack Developer",
-            1000,
-            "Creative Builder",
-            1000,
-            "Template Enjoyer",
-            1000,
-          ]}
-          wrapper="span"
-          speed={50}
-          repeat={Infinity}
-        />
+        Yanle (Tony) Lyu
       </h1>
-      <p className="text-sm sm:text-base lg:text-lg mb-6 max-w-[600px] mx-auto sm:mx-0 text-solarized-base00 dark:text-solarized-base1">
-        A playful portfolio template — swap every line for your own introduction.
+      <p className="text-lg sm:text-xl lg:text-2xl mb-6 max-w-[800px] mx-auto sm:mx-0 text-solarized-base00 dark:text-solarized-base1 font-medium">
+        MS in Data Science at Brown. Machine Learning Engineer at Q&Q AI. Building systems for Valuation Intelligence and Trustworthy ML.
       </p>
-      <div className="flex flex-col items-center sm:items-start">
+      <div className="flex flex-wrap items-center gap-4 sm:justify-start justify-center">
         <Link
-          href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+          href="/resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 mt-3 rounded-full text-base sm:text-lg font-semibold text-solarized-base3 shadow-md hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-solarized-blue focus-visible:ring-offset-2 [background-size:100%_100%] border border-black/15 bg-[linear-gradient(90deg,#1d4ed8_0%,#c2410c_100%)] hover:bg-[linear-gradient(90deg,#1e3a8a_0%,#9a3412_100%)] focus-visible:ring-offset-solarized-base3 dark:border-white/20 dark:bg-[linear-gradient(90deg,#268bd2_0%,#cb4b16_100%)] dark:hover:bg-[linear-gradient(90deg,#2075c7_0%,#b85c0c_100%)] dark:focus-visible:ring-offset-solarized-base03"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-base sm:text-lg font-semibold text-solarized-base3 shadow-md hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-solarized-blue focus-visible:ring-offset-2 bg-solarized-blue hover:bg-solarized-blue/90 dark:bg-solarized-blue dark:hover:bg-solarized-blue/80"
         >
           Resume
           <svg
@@ -86,7 +31,7 @@ const HeroTextContent = () => {
             viewBox="0 0 24 24"
             strokeWidth={2}
             stroke="currentColor"
-            className="w-5 h-5 sm:w-6 sm:h-6"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
@@ -95,40 +40,43 @@ const HeroTextContent = () => {
             />
           </svg>
         </Link>
-
-        <div
-          className="mt-4 inline-block relative"
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
+        
+        <Link
+          href="mailto:yanle_lyu@brown.edu"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-base sm:text-lg font-semibold border-2 border-solarized-blue text-solarized-blue hover:bg-solarized-blue hover:text-white transition-all duration-300 shadow-sm"
         >
-          <span className="text-xs font-medium text-solarized-blueUi dark:text-solarized-base1">
-            <span className="animate-pulse">✨</span>
-            The 3D model is{" "}
-            <Link
-              href="https://chiikawa.fandom.com/wiki/Usagi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold hover:underline text-solarized-base03 hover:text-solarized-blue dark:text-solarized-base3 dark:hover:text-solarized-cyan"
-              title="Usagi (うさぎ) from Chiikawa (ちいかわ)"
-            >
-              Usagi
-            </Link>
-            {" "}
-            <span className="font-normal opacity-90">from Chiikawa</span>
-            <span className="animate-bounce inline-block">🐰</span>
-          </span>
+          Email
+        </Link>
 
-          <div
-            className={`absolute top-full mt-2 left-0 z-10 transition-opacity duration-300 rounded-md py-1.5 px-3 text-xs max-w-[250px] ${
-              showTooltip ? "opacity-100" : "opacity-0 pointer-events-none"
-            } bg-solarized-base2 text-solarized-base01 border border-solarized-borderLight dark:bg-solarized-base02 dark:text-solarized-ghMuted dark:border-solarized-ghBorder`}
+        <Link
+          href="https://linkedin.com/in/yanle-lyu"
+          target="_blank"
+          className="p-3 rounded-full border border-solarized-base1 hover:bg-solarized-base2 transition-all duration-300"
+        >
+           <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="currentColor"
+            viewBox="0 0 24 24"
           >
-            <span className="font-medium">Usagi</span> (うさぎ) is a character
-            from Nagano&apos;s manga and anime{" "}
-            <span className="font-medium">Chiikawa</span> (ちいかわ). This site
-            uses them as a playful template mascot — swap for your own branding.
-          </div>
-        </div>
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+        </Link>
+
+        <Link
+          href="https://github.com/your-username"
+          target="_blank"
+          className="p-3 rounded-full border border-solarized-base1 hover:bg-solarized-base2 transition-all duration-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </Link>
       </div>
     </motion.div>
   );

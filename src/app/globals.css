@@ -15,16 +15,16 @@ canvas {
 }
 
 .scrollbar-dark::-webkit-scrollbar-track {
-  background: #073642;
+  background: #0B0F14;
 }
 
 .scrollbar-dark::-webkit-scrollbar-thumb {
-  background: #586e75;
+  background: #1F2937;
   border-radius: 3px;
 }
 
 .scrollbar-dark::-webkit-scrollbar-thumb:hover {
-  background: #93a1a1;
+  background: #9CA3AF;
 }
 
 .scrollbar-light::-webkit-scrollbar {
@@ -32,16 +32,16 @@ canvas {
 }
 
 .scrollbar-light::-webkit-scrollbar-track {
-  background: #eee8d5;
+  background: #0B0F14;
 }
 
 .scrollbar-light::-webkit-scrollbar-thumb {
-  background: #93a1a1;
+  background: #1F2937;
   border-radius: 3px;
 }
 
 .scrollbar-light::-webkit-scrollbar-thumb:hover {
-  background: #586e75;
+  background: #9CA3AF;
 }
 
 .three-container {
@@ -222,7 +222,7 @@ input[type="range"]::-moz-range-track {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent !important;
-  background-image: linear-gradient(90deg, #268bd2, #2aa198, #268bd2);
+  background-image: linear-gradient(90deg, #3B82F6, #3B82F6, #3B82F6);
   background-size: 200% auto;
   animation: gradient-shift 3s linear infinite;
 }

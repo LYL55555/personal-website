@@ -1,32 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import {
-  SiDocker,
-  SiGit,
-  SiGithub,
-  SiGitlab,
-  SiIterm2,
-  SiJest,
-  SiKubernetes,
-  SiPostman,
-  SiPuppeteer,
-  SiTailwindcss,
-  SiVercel,
-  SiWebpack,
-} from "react-icons/si";
-import { BiLogoVisualStudio } from "react-icons/bi";
-import { FaAws } from "react-icons/fa";
 import { useEffect, useState } from "react";
-
-function calculateDistance(x1, y1, x2, y2) {
-  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-}
-
-function generatePosition(minRadius, maxRadius, minAngle, maxAngle) {
-  const radius = Math.random() * (maxRadius - minRadius) + minRadius;
-  const rotation = Math.random() * (maxAngle - minAngle) + minAngle;
-  return { radius, rotation };
-}
+import { DEVOPS_SKILLS } from "@/data/skillsData";
 
 const SkillItem = ({ skill, isDarkMode, position, index }) => {
   const Icon = skill.Icon;
@@ -87,135 +62,8 @@ const SkillItem = ({ skill, isDarkMode, position, index }) => {
   );
 };
 
-const DEVOPS_SKILLS = [
-  {
-    name: "Git",
-    Icon: SiGit,
-    baseRadius: 120,
-    baseAngle: 5,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#F05032",
-    darkColor: "#F05032",
-  },
-  {
-    name: "GitHub",
-    Icon: SiGithub,
-    baseRadius: 200,
-    baseAngle: 30,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#181717",
-    darkColor: "#FFFFFF",
-  },
-  {
-    name: "GitLab",
-    Icon: SiGitlab,
-    baseRadius: 160,
-    baseAngle: 15,
-    radiusOffset: 20,
-    angleOffset: 10,
-    lightColor: "#FC6D26",
-    darkColor: "#FC6D26",
-  },
-  {
-    name: "VS Code",
-    Icon: BiLogoVisualStudio,
-    baseRadius: 280,
-    baseAngle: 40,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#007ACC",
-    darkColor: "#0098FF",
-  },
-  {
-    name: "Jest",
-    Icon: SiJest,
-    baseRadius: 200,
-    baseAngle: 50,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#C21325",
-    darkColor: "#E91E32",
-  },
-  {
-    name: "Puppeteer",
-    Icon: SiPuppeteer,
-    baseRadius: 120,
-    baseAngle: 35,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#40B5A4",
-    darkColor: "#50D6C2",
-  },
-  {
-    name: "iTerm",
-    Icon: SiIterm2,
-    baseRadius: 80,
-    baseAngle: 10,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#666666",
-    darkColor: "#A9ABAC",
-  },
-  {
-    name: "Vercel",
-    Icon: SiVercel,
-    baseRadius: 140,
-    baseAngle: 45,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#171717",
-    darkColor: "#CCCCCC",
-  },
-  {
-    name: "Kubernetes",
-    Icon: SiKubernetes,
-    baseRadius: 240,
-    baseAngle: 60,
-    radiusOffset: 20,
-    angleOffset: 20,
-    lightColor: "#326CE5",
-    darkColor: "#4D7EE8",
-  },
-  {
-    name: "Docker",
-    Icon: SiDocker,
-    baseRadius: 200,
-    baseAngle: 35,
-    radiusOffset: 20,
-    angleOffset: 10,
-    lightColor: "#2496ED",
-    darkColor: "#40A6EF",
-  },
-  {
-    name: "Postman",
-    Icon: SiPostman,
-    baseRadius: 160,
-    baseAngle: 25,
-    radiusOffset: 20,
-    angleOffset: 15,
-    lightColor: "#FF6C37",
-    darkColor: "#FF8F66",
-  },
-  {
-    name: "AWS",
-    Icon: FaAws,
-    baseRadius: 240,
-    baseAngle: 20,
-    radiusOffset: 20,
-    angleOffset: 15,
-    lightColor: "#FF9900",
-    darkColor: "#FFA826",
-  },
-];
-
-const MIN_DISTANCE = 65;
-
 export function DevopsQuadrant({ isDarkMode }) {
   const [positions, setPositions] = useState([]);
-  const MAX_RADIUS = 240;
-  const MIN_RADIUS = 80;
   const MIN_ANGLE = 15;
   const MAX_ANGLE = 85;
 
@@ -230,9 +78,8 @@ export function DevopsQuadrant({ isDarkMode }) {
         let position;
 
         while (attempts < maxAttempts) {
-          let newAngle = MIN_ANGLE + Math.random() * (MAX_ANGLE - MIN_ANGLE);
-          let newRadius =
-            MIN_RADIUS + Math.random() * (MAX_RADIUS - MIN_RADIUS);
+          let newAngle = skill.baseAngle - 10 + Math.random() * 20;
+          let newRadius = skill.baseRadius - 20 + Math.random() * 40;
 
           let tooClose = false;
           for (const pos of calculatedPositions) {
@@ -245,34 +92,18 @@ export function DevopsQuadrant({ isDarkMode }) {
           }
 
           if (!tooClose) {
-            position = {
-              radius: newRadius,
-              rotation: newAngle,
-            };
+            position = { radius: newRadius, rotation: newAngle };
             break;
           }
-
           attempts++;
         }
 
-        if (!position) {
-          position = {
-            radius: Math.min(
-              Math.max(skill.baseRadius, MIN_RADIUS),
-              MAX_RADIUS,
-            ),
-            rotation: Math.min(Math.max(skill.baseAngle, MIN_ANGLE), MAX_ANGLE),
-          };
-        }
-
-        calculatedPositions.push(position);
+        calculatedPositions.push(position || { radius: skill.baseRadius, rotation: skill.baseAngle });
       }
-
       return calculatedPositions;
     };
 
-    const initialPositions = calculatePositions();
-    setPositions(initialPositions);
+    setPositions(calculatePositions());
   }, []);
 
   return (
@@ -282,18 +113,7 @@ export function DevopsQuadrant({ isDarkMode }) {
           key={skill.name}
           skill={skill}
           isDarkMode={isDarkMode}
-          position={
-            positions[index] || {
-              radius: Math.min(
-                Math.max(skill.baseRadius, MIN_RADIUS),
-                MAX_RADIUS,
-              ),
-              rotation: Math.min(
-                Math.max(skill.baseAngle, MIN_ANGLE),
-                MAX_ANGLE,
-              ),
-            }
-          }
+          position={positions[index] || { radius: skill.baseRadius, rotation: skill.baseAngle }}
           index={index}
         />
       ))}

@@ -1,294 +1,58 @@
-import { TbFlask } from "react-icons/tb";
-import {
-  SiSwagger,
-  SiNodedotjs,
-  SiPython,
-  SiPostman,
-  SiSwift,
-  SiCplusplus,
-  SiHtml5,
-  SiCss3,
-  SiJavascript,
-  SiTypescript,
-  SiReact,
-  SiNextdotjs,
-  SiMongodb,
-  SiMysql,
-  SiPrisma,
-  SiPostgresql,
-  SiGit,
-  SiGithub,
-  SiGitlab,
-  SiDocker,
-  SiKubernetes,
-  SiSpring,
-  SiDjango,
-  SiQt,
-  SiAngular,
-  SiVuedotjs,
-  SiWechat,
-  SiLinux,
-  SiVite,
-  SiNginx,
-} from "react-icons/si";
-import { FaJava } from "react-icons/fa";
-import { VscCode } from "react-icons/vsc";
+"use client";
+import * as Si from "react-icons/si";
+import { FaPython, FaDatabase, FaTerminal, FaCode } from "react-icons/fa";
+import { TbSql } from "react-icons/tb";
 
-const QUADRANT_CONFIG = {
-  BACKEND: {
-    startAngle: -85,
-    endAngle: -5,
-    baseRadiusStart: 120,
-    radiusIncrement: 30,
-    radiusOffsetBase: 30,
-    radiusOffsetIncrement: 5,
-    angleOffsetBase: 10,
-    angleOffsetIncrement: 2,
-  },
-  FRONTEND: {
-    startAngle: -175,
-    endAngle: -95,
-    baseRadiusStart: 120,
-    radiusIncrement: 30,
-    radiusOffsetBase: 30,
-    radiusOffsetIncrement: 5,
-    angleOffsetBase: 10,
-    angleOffsetIncrement: 2,
-  },
-  DATABASE: {
-    startAngle: 95,
-    endAngle: 175,
-    baseRadiusStart: 120,
-    radiusIncrement: 30,
-    radiusOffsetBase: 30,
-    radiusOffsetIncrement: 5,
-    angleOffsetBase: 10,
-    angleOffsetIncrement: 2,
-  },
-  DEVOPS: {
-    startAngle: 5,
-    endAngle: 85,
-    baseRadiusStart: 120,
-    radiusIncrement: 30,
-    radiusOffsetBase: 30,
-    radiusOffsetIncrement: 5,
-    angleOffsetBase: 10,
-    angleOffsetIncrement: 2,
-  },
-};
+/** Skills data for Tony Lyu. */
+export const FRONTEND_SKILLS = [
+  { name: "React", Icon: Si.SiReact, lightColor: "#61DAFB", darkColor: "#61DAFB", baseRadius: 100, baseAngle: -140 },
+  { name: "Next.js", Icon: Si.SiNextdotjs, lightColor: "#000000", darkColor: "#FFFFFF", baseRadius: 150, baseAngle: -120 },
+  { name: "JS", Icon: Si.SiJavascript, lightColor: "#F7DF1E", darkColor: "#F7DF1E", baseRadius: 120, baseAngle: -160 },
+  { name: "HTML", Icon: Si.SiHtml5, lightColor: "#E34F26", darkColor: "#E34F26", baseRadius: 80, baseAngle: -170 },
+  { name: "Tailwind", Icon: Si.SiTailwindcss, lightColor: "#06B6D4", darkColor: "#06B6D4", baseRadius: 180, baseAngle: -130 },
+];
 
-const calculateDistribution = (items, quadrantType) => {
-  const config = QUADRANT_CONFIG[quadrantType];
-  const totalItems = items.length;
+export const BACKEND_SKILLS = [
+  { name: "Python", Icon: FaPython, lightColor: "#3776AB", darkColor: "#3776AB", baseRadius: 100, baseAngle: -40 },
+  { name: "SQL", Icon: TbSql, lightColor: "#4479A1", darkColor: "#4479A1", baseRadius: 140, baseAngle: -60 },
+  { name: "C++", Icon: Si.SiCplusplus, lightColor: "#00599C", darkColor: "#00599C", baseRadius: 120, baseAngle: -20 },
+  { name: "Java", Icon: Si.SiOpenjdk, lightColor: "#007396", darkColor: "#007396", baseRadius: 160, baseAngle: -50 },
+  { name: "PyTorch", Icon: Si.SiPytorch, lightColor: "#EE4C2C", darkColor: "#EE4C2C", baseRadius: 180, baseAngle: -30 },
+];
 
-  return items.map((item, index) => {
-    const progress = index / (totalItems - 1);
-    const baseAngle =
-      config.startAngle + (config.endAngle - config.startAngle) * progress;
+export const DATABASE_SKILLS = [
+  { name: "MongoDB", Icon: Si.SiMongodb, lightColor: "#47A248", darkColor: "#47A248", baseRadius: 100, baseAngle: 120 },
+  { name: "MySQL", Icon: Si.SiMysql, lightColor: "#4479A1", darkColor: "#4479A1", baseRadius: 140, baseAngle: 140 },
+  { name: "Neo4j", Icon: Si.SiNeo4j, lightColor: "#008CC1", darkColor: "#008CC1", baseRadius: 120, baseAngle: 160 },
+  { name: "Elasticsearch", Icon: Si.SiElasticsearch, lightColor: "#005571", darkColor: "#005571", baseRadius: 160, baseAngle: 130 },
+  { name: "FAISS", Icon: FaDatabase, lightColor: "#586e75", darkColor: "#93a1a1", baseRadius: 180, baseAngle: 110 },
+];
 
-    const radiusCycle = index % 3;
-    const baseRadius =
-      config.baseRadiusStart + config.radiusIncrement * radiusCycle;
+export const DEVOPS_SKILLS = [
+  { name: "Docker", Icon: Si.SiDocker, lightColor: "#2496ED", darkColor: "#2496ED", baseRadius: 100, baseAngle: 40 },
+  { name: "Git", Icon: Si.SiGit, lightColor: "#F05032", darkColor: "#F05032", baseRadius: 140, baseAngle: 20 },
+  { name: "GitHub", Icon: Si.SiGithub, lightColor: "#181717", darkColor: "#FFFFFF", baseRadius: 120, baseAngle: 60 },
+  { name: "Hadoop", Icon: Si.SiApachehadoop, lightColor: "#FFFF00", darkColor: "#FFFF00", baseRadius: 160, baseAngle: 30 },
+  { name: "AWS", Icon: Si.SiAmazonaws, lightColor: "#FF9900", darkColor: "#FF9900", baseRadius: 180, baseAngle: 50 },
+];
 
-    const radiusTier = Math.floor(
-      (baseRadius - config.baseRadiusStart) / config.radiusIncrement,
-    );
-    const radiusOffset =
-      config.radiusOffsetBase + radiusTier * config.radiusOffsetIncrement;
-    const angleOffset =
-      config.angleOffsetBase + radiusTier * config.angleOffsetIncrement;
-
-    return {
-      ...item,
-      baseRadius,
-      baseAngle,
-      radiusOffset,
-      angleOffset,
-    };
-  });
-};
-
-const BACKEND_ITEMS = [
+const SKILLS_DATA = [
   {
-    name: "Python",
-    Icon: SiPython,
-    lightColor: "#3776AB",
-    darkColor: "#4B8BBF",
+    category: "Languages & Core",
+    skills: ["Python", "SQL", "R Programming", "C++", "JS", "HTML", "Java"],
   },
   {
-    name: "Java",
-    Icon: FaJava,
-    lightColor: "#007396",
-    darkColor: "#0088B5",
+    category: "AI & Machine Learning",
+    skills: ["LangChain", "TensorFlow", "PyTorch", "Transformers", "LLM Agents", "NLTK"],
   },
   {
-    name: "C++",
-    Icon: SiCplusplus,
-    lightColor: "#00599C",
-    darkColor: "#0073C7",
+    category: "Data & Infrastructure",
+    skills: ["Hadoop", "FAISS", "Neo4j", "Elasticsearch", "SQL Server", "MongoDB"],
   },
   {
-    name: "Spring Boot",
-    Icon: SiSpring,
-    lightColor: "#6DB33F",
-    darkColor: "#7FCC4D",
-  },
-  {
-    name: "Node.js",
-    Icon: SiNodedotjs,
-    lightColor: "#339933",
-    darkColor: "#47B347",
-  },
-  {
-    name: "Flask",
-    Icon: TbFlask,
-    lightColor: "#000000",
-    darkColor: "#FFFFFF",
-  },
-  {
-    name: "Django",
-    Icon: SiDjango,
-    lightColor: "#092E20",
-    darkColor: "#44B78B",
-  },
-  {
-    name: "REST API",
-    Icon: SiSwagger,
-    lightColor: "#85EA2D",
-    darkColor: "#98F046",
-  },
-  {
-    name: "Nginx",
-    Icon: SiNginx,
-    lightColor: "#009639",
-    darkColor: "#00B347",
+    category: "Tools & Analysis",
+    skills: ["BeautifulSoup", "Seaborn", "dplyr", "tidyr", "prophet", "Time Series Analysis"],
   },
 ];
 
-const FRONTEND_ITEMS = [
-  {
-    name: "HTML",
-    Icon: SiHtml5,
-    lightColor: "#E34F26",
-    darkColor: "#FF6B52",
-  },
-  {
-    name: "CSS",
-    Icon: SiCss3,
-    lightColor: "#1572B6",
-    darkColor: "#2A8FE5",
-  },
-  {
-    name: "JavaScript",
-    Icon: SiJavascript,
-    lightColor: "#F7DF1E",
-    darkColor: "#FFE94A",
-  },
-  {
-    name: "TypeScript",
-    Icon: SiTypescript,
-    lightColor: "#3178C6",
-    darkColor: "#4595E5",
-  },
-  {
-    name: "React",
-    Icon: SiReact,
-    lightColor: "#61DAFB",
-    darkColor: "#7DE3FF",
-  },
-  {
-    name: "Next.js",
-    Icon: SiNextdotjs,
-    lightColor: "#000000",
-    darkColor: "#FFFFFF",
-  },
-  {
-    name: "Angular",
-    Icon: SiAngular,
-    lightColor: "#DD0031",
-    darkColor: "#FF1744",
-  },
-  {
-    name: "Vue",
-    Icon: SiVuedotjs,
-    lightColor: "#4FC08D",
-    darkColor: "#5FD09D",
-  },
-  {
-    name: "WeChat",
-    Icon: SiWechat,
-    lightColor: "#07C160",
-    darkColor: "#1AD16F",
-  },
-  {
-    name: "Vite",
-    Icon: SiVite,
-    lightColor: "#646CFF",
-    darkColor: "#747BFF",
-  },
-];
-
-const DATABASE_ITEMS = [
-  {
-    name: "MongoDB",
-    Icon: SiMongodb,
-    lightColor: "#47A248",
-    darkColor: "#59B45A",
-  },
-  {
-    name: "MySQL",
-    Icon: SiMysql,
-    lightColor: "#4479A1",
-    darkColor: "#5C91B9",
-  },
-  {
-    name: "Prisma",
-    Icon: SiPrisma,
-    lightColor: "#2D3748",
-    darkColor: "#3D4B5F",
-  },
-  {
-    name: "PostgreSQL",
-    Icon: SiPostgresql,
-    lightColor: "#336791",
-    darkColor: "#4479A3",
-  },
-];
-
-const DEVOPS_ITEMS = [
-  {
-    name: "Git",
-    Icon: SiGit,
-    lightColor: "#F05032",
-    darkColor: "#F05032",
-  },
-  {
-    name: "Docker",
-    Icon: SiDocker,
-    lightColor: "#2496ED",
-    darkColor: "#2496ED",
-  },
-  {
-    name: "VS Code",
-    Icon: VscCode,
-    lightColor: "#007ACC",
-    darkColor: "#007ACC",
-  },
-  {
-    name: "Linux",
-    Icon: SiLinux,
-    lightColor: "#FCC624",
-    darkColor: "#FCC624",
-  },
-];
-
-export const BACKEND_SKILLS = calculateDistribution(BACKEND_ITEMS, "BACKEND");
-export const FRONTEND_SKILLS = calculateDistribution(
-  FRONTEND_ITEMS,
-  "FRONTEND",
-);
-export const DATABASE_SKILLS = calculateDistribution(
-  DATABASE_ITEMS,
-  "DATABASE",
-);
-export const DEVOPS_SKILLS = calculateDistribution(DEVOPS_ITEMS, "DEVOPS");
+export default SKILLS_DATA;

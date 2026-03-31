@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import * as SiIcons from "react-icons/si";
 import { useEffect, useState } from "react";
+import { FRONTEND_SKILLS } from "@/data/skillsData";
 
 function calculateDistance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
@@ -14,18 +14,13 @@ function generatePosition(minRadius, maxRadius, minAngle, maxAngle) {
 }
 
 const SkillItem = ({ skill, isDarkMode, position, index }) => {
-  const Icon = SiIcons[skill.iconName];
+  const Icon = skill.Icon;
   const x = Math.cos((position.rotation * Math.PI) / 180) * position.radius;
   const y = Math.sin((position.rotation * Math.PI) / 180) * position.radius;
 
   if (!Icon) return null;
 
-  const iconColor =
-    skill.lightColor && skill.darkColor
-      ? isDarkMode
-        ? skill.darkColor
-        : skill.lightColor
-      : skill.color;
+  const iconColor = isDarkMode ? skill.darkColor : skill.lightColor;
 
   const itemSize =
     typeof window !== "undefined" && window.innerWidth < 480 ? 50 : 60;
@@ -82,64 +77,6 @@ const SkillItem = ({ skill, isDarkMode, position, index }) => {
     </motion.div>
   );
 };
-
-const FRONTEND_SKILLS = [
-  {
-    name: "HTML",
-    iconName: "SiHtml5",
-    minRadius: 60,
-    maxRadius: 180,
-    minAngle: -175,
-    maxAngle: -155,
-    color: "#E34F26",
-  },
-  {
-    name: "CSS",
-    iconName: "SiCss3",
-    minRadius: 80,
-    maxRadius: 200,
-    minAngle: -150,
-    maxAngle: -90,
-    color: "#1572B6",
-  },
-  {
-    name: "JavaScript",
-    iconName: "SiJavascript",
-    minRadius: 120,
-    maxRadius: 240,
-    minAngle: -170,
-    maxAngle: -110,
-    color: "#F7DF1E",
-  },
-  {
-    name: "TypeScript",
-    iconName: "SiTypescript",
-    minRadius: 180,
-    maxRadius: 300,
-    minAngle: -145,
-    maxAngle: -125,
-    color: "#3178C6",
-  },
-  {
-    name: "React",
-    iconName: "SiReact",
-    minRadius: 140,
-    maxRadius: 260,
-    minAngle: -130,
-    maxAngle: -110,
-    color: "#61DAFB",
-  },
-  {
-    name: "Next.js",
-    iconName: "SiNextdotjs",
-    minRadius: 200,
-    maxRadius: 320,
-    minAngle: -140,
-    maxAngle: -100,
-    lightColor: "#000000",
-    darkColor: "#FFFFFF",
-  },
-];
 
 const MIN_DISTANCE = 65;
 
