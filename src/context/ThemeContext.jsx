@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 
 const ThemeContext = createContext();
 
@@ -34,83 +34,22 @@ const safeLocalStorage = {
 };
 
 export function ThemeProvider({ children }) {
-  const [mounted, setMounted] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false); // Same default on server and client
-
-  const getSystemTheme = () => {
-    try {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    } catch (error) {
-      log(`Error detecting system theme: ${error}`);
-      return false;
-    }
-  };
+  const isDarkMode = true;
 
   useEffect(() => {
-    const savedTheme = safeLocalStorage.getItem("theme");
-    const userChoice = safeLocalStorage.getItem("userThemeChoice");
-    const systemDarkMode = getSystemTheme();
-
-    log(
-      `Init theme — saved: ${savedTheme}, userChoice: ${userChoice}, systemDark: ${systemDarkMode}`,
-    );
-
-    if (savedTheme && userChoice === "true") {
-      log(`Using user-selected theme: ${savedTheme}`);
-      setIsDarkMode(savedTheme === "dark");
-    } else {
-      log(`Following system theme: ${systemDarkMode ? "dark" : "light"}`);
-      safeLocalStorage.removeItem("theme");
-      safeLocalStorage.removeItem("userThemeChoice");
-      setIsDarkMode(systemDarkMode);
-    }
-    setMounted(true);
+    safeLocalStorage.setItem("theme", "dark");
+    safeLocalStorage.setItem("userThemeChoice", "true");
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
-
-    if (safeLocalStorage.getItem("userThemeChoice") !== "true") {
-      try {
-        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-        const handleChange = (e) => {
-          log(`System theme changed to: ${e.matches ? "dark" : "light"}`);
-          setIsDarkMode(e.matches);
-          safeLocalStorage.removeItem("theme");
-        };
-
-        mediaQuery.addEventListener("change", handleChange);
-        return () => mediaQuery.removeEventListener("change", handleChange);
-      } catch (error) {
-        log(`Error setting up media query listener: ${error}`);
-      }
-    }
-  }, [mounted]);
-
-  useEffect(() => {
-    if (!mounted) return;
-
     try {
       const root = document.documentElement;
 
       root.classList.add("theme-transition");
-
-      if (isDarkMode) {
-        root.classList.add("dark");
-        root.classList.remove("light");
-
-        if (safeLocalStorage.getItem("userThemeChoice") === "true") {
-          safeLocalStorage.setItem("theme", "dark");
-        }
-      } else {
-        root.classList.remove("dark");
-        root.classList.add("light");
-
-        if (safeLocalStorage.getItem("userThemeChoice") === "true") {
-          safeLocalStorage.setItem("theme", "light");
-        }
-      }
+      root.classList.add("dark");
+      root.classList.remove("light");
+      safeLocalStorage.setItem("theme", "dark");
+      safeLocalStorage.setItem("userThemeChoice", "true");
 
       setTimeout(() => {
         root.classList.remove("theme-transition");
@@ -118,36 +57,15 @@ export function ThemeProvider({ children }) {
     } catch (error) {
       log(`Error updating DOM: ${error}`);
     }
-  }, [isDarkMode, mounted]);
+  }, []);
 
   const toggleTheme = () => {
-    safeLocalStorage.setItem("userThemeChoice", "true");
-    const newMode = !isDarkMode;
-    log(`User toggled theme to: ${newMode ? "dark" : "light"}`);
-    setIsDarkMode(newMode);
+    log("Theme is locked to dark mode.");
   };
 
   const resetToSystemTheme = () => {
-    safeLocalStorage.removeItem("theme");
-    safeLocalStorage.removeItem("userThemeChoice");
-    const systemTheme = getSystemTheme();
-    log(`Reset to system theme: ${systemTheme ? "dark" : "light"}`);
-    setIsDarkMode(systemTheme);
+    log("Theme is locked to dark mode.");
   };
-
-  if (!mounted) {
-    return (
-      <ThemeContext.Provider
-        value={{
-          isDarkMode: false,
-          toggleTheme: () => {},
-          resetToSystemTheme: () => {},
-        }}
-      >
-        {children}
-      </ThemeContext.Provider>
-    );
-  }
 
   return (
     <ThemeContext.Provider

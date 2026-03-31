@@ -15,12 +15,8 @@ const noFlashStyle = `
     visibility: hidden;
   }
   html.dark {
-    background: #002b36;
+    background: #0B0F14;
     color-scheme: dark;
-  }
-  html.light {
-    background: #fdf6e3;
-    color-scheme: light;
   }
 `;
 
@@ -29,29 +25,10 @@ const themeScript = `
     let html = document.documentElement;
     
     html.classList.add('no-flash');
-    
-    function setTheme(theme) {
-      html.classList.remove('light', 'dark');
-      html.classList.add(theme);
-    }
-
-    let savedTheme = localStorage.getItem('theme');
-    let userChoice = localStorage.getItem('userThemeChoice');
-    
-    if (savedTheme && userChoice === 'true') {
-      setTheme(savedTheme);
-    } else {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      setTheme(systemTheme);
-      localStorage.removeItem('theme');
-      localStorage.removeItem('userThemeChoice');
-    }
-    
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (localStorage.getItem('userThemeChoice') !== 'true') {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    });
+    html.classList.remove('light');
+    html.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+    localStorage.setItem('userThemeChoice', 'true');
     
     requestAnimationFrame(() => {
       html.classList.remove('no-flash');

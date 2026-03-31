@@ -41,7 +41,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode } = useTheme();
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -124,42 +124,6 @@ const Navbar = () => {
               </svg>
             </motion.a>
 
-            <motion.button
-              onClick={toggleTheme}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-full border-2
-                ${isDarkMode 
-                  ? 'bg-solarized-base03Deep border-solarized-base01 text-solarized-base1' 
-                  : 'bg-solarized-base2 border-solarized-base1 text-solarized-base01'}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <span className="text-sm font-medium">
-                {isDarkMode ? 'Dark' : 'Light'}
-              </span>
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-5 w-5"
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                {isDarkMode ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
-                  />
-                )}
-              </svg>
-            </motion.button>
           </div>
         </div>
 
@@ -218,39 +182,6 @@ const Navbar = () => {
             <div className={`w-full h-[1px] my-1 ${isDarkMode ? 'bg-solarized-base01' : 'bg-solarized-base1'} opacity-30`}></div>
 
             <div className="flex items-center justify-center gap-8 py-1.5 px-4">
-              <motion.button
-                onClick={toggleTheme}
-                className={`transition-colors duration-300
-                  ${isDarkMode 
-                    ? 'text-solarized-base1 hover:text-solarized-base3' 
-                    : 'text-solarized-base01 hover:text-solarized-base03'}`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-6 w-6"
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  {isDarkMode ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
-                    />
-                  )}
-                </svg>
-              </motion.button>
               <motion.a
                 href="https://github.com/LYL55555"
                 target="_blank"
