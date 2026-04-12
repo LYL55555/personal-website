@@ -33,7 +33,7 @@ export default function Home() {
 
   const researchItems = [
     {
-      title: "Shaanxi Key Lab of BDKE, Xi'an Jiaotong Univ | Advisor: Yannan Chen",
+      title: "Shaanxi Key Lab of BDKE, Xi'an Jiaotong Univ | Advisor: Yanan Chen",
       subtitle: "Mar. 2025 - Present",
       description:
         "• Dual-Generalization-Aware Minimization (ECCV 2026 Under Review, Co-First Author): proposed dual-space flatness optimization for continual fine-tuning of VLMs, preserving zero-shot generalization while reducing catastrophic forgetting.\n• FLAD Framework (AAAI 2026): decomposed sharpness into gradient-aligned and noise-driven components to improve stability-plasticity tradeoff under fixed budgets.",
@@ -67,7 +67,7 @@ export default function Home() {
     },
     {
       title: "Dual-Generalization-Aware Minimization for Continual Fine-Tuning of VLMs",
-      subtitle: "Shaanxi Key Lab of BDKE (Shaanxi Jiaotong Univ) | Advisor: Yannan Chen | Under Review at ECCV 2026, Co-First Author",
+      subtitle: "Shaanxi Key Lab of BDKE (Shaanxi Jiaotong Univ) | Advisor: Yanan Chen | Under Review at ECCV 2026, Co-First Author",
       description:
         "Proposed a dual-space flatness optimization method for continual fine-tuning of vision–language models that preserves zero-shot generalization while reducing catastrophic forgetting across benchmarks.",
     },

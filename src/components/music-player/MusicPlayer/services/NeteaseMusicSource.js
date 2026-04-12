@@ -7,7 +7,7 @@ const metadataCache = new Map();
 const metadataInflight = new Map();
 
 const DEFAULT_PLAYLIST =
-  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "2635250005";
+  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "2747910283";
 
 export class NeteaseMusicSource extends MusicSourceInterface {
   constructor(playlistId = DEFAULT_PLAYLIST) {

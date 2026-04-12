@@ -20,7 +20,7 @@ import { useLyricCache } from "./hooks/useLyricCache";
 const MUSIC_PLAYER_MINIMIZED_KEY = "portfolioMusicPlayerMinimized";
 
 const DEFAULT_NETEASE_PLAYLIST_ID =
-  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "2635250005";
+  process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID ?? "2747910283";
 
 export function MusicPlayerProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(false);

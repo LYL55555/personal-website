@@ -55,7 +55,7 @@ const AboutSection = () => {
               </p>
 
               <p>
-                Currently, as a <span className="font-semibold text-solarized-blue">Machine Learning Engineer</span> at <a href="https://qandq.ai/" target="_blank" rel="noopener noreferrer" className="font-bold underline decoration-solarized-blue/30 hover:decoration-solarized-blue decoration-2 transition-all">Q&Q AI</a>, I develop <span className="font-semibold">LLM-driven pipelines</span> and <span className="font-semibold text-solarized-blue">agent systems</span> that <span className="italic">automate complex financial reasoning</span>. My research interests include <span className="font-semibold text-solarized-blue">continual learning</span>, <span className="font-semibold text-solarized-blue">vision-language models</span>, and <span className="font-semibold text-solarized-blue">red teaming AI policies</span>.
+                Currently, as a <span className="font-semibold text-solarized-blue">Machine Learning Engineer</span> at <a href="https://qandq.ai/" target="_blank" rel="noopener noreferrer" className="font-bold underline decoration-solarized-blue/30 hover:decoration-solarized-blue decoration-2 transition-all">Q&Q AI</a>, I develop <span className="font-semibold">LLM-driven pipelines</span> and <span className="font-semibold text-solarized-blue">agent systems</span> that <span className="italic">automate complex financial reasoning</span>. My research interests center on <span className="font-semibold text-solarized-blue">continual learning</span> and <span className="font-semibold text-solarized-blue">vision-language models (VLMs)</span>.
               </p>
 
               <p>
