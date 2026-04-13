@@ -22,24 +22,9 @@ export class NeteaseMusicSource extends MusicSourceInterface {
 
   async getPlaylist() {
     try {
-      // Try to fetch as playlist first
-      const playlistResponse = await fetch(
-        `${this.apiBaseUrl}/playlist?id=${this.playlistId}`,
-      );
-      
       let tracks = [];
-      if (playlistResponse.ok) {
-        const data = await playlistResponse.json();
-        if (data.result && Array.isArray(data.result.tracks)) {
-          tracks = data.result.tracks;
-        } else if (Array.isArray(data.tracks)) {
-          tracks = data.tracks;
-        } else if (Array.isArray(data.songs)) {
-          tracks = data.songs;
-        }
-      }
 
-      // If no tracks found, try to fetch as a single song detail
+      // Prefer single-song resolution first to avoid accidental playlist matches
       if (!tracks.length) {
         const songResponse = await fetch(
           `${this.apiBaseUrl}/song/detail?ids=${this.playlistId}`,
@@ -48,6 +33,24 @@ export class NeteaseMusicSource extends MusicSourceInterface {
           const songData = await songResponse.json();
           if (songData.songs && Array.isArray(songData.songs) && songData.songs.length > 0) {
             tracks = songData.songs;
+          }
+        }
+      }
+
+      // Fallback to playlist only when song lookup returns nothing
+      if (!tracks.length) {
+        const playlistResponse = await fetch(
+          `${this.apiBaseUrl}/playlist?id=${this.playlistId}`,
+        );
+
+        if (playlistResponse.ok) {
+          const data = await playlistResponse.json();
+          if (data.result && Array.isArray(data.result.tracks)) {
+            tracks = data.result.tracks;
+          } else if (Array.isArray(data.tracks)) {
+            tracks = data.tracks;
+          } else if (Array.isArray(data.songs)) {
+            tracks = data.songs;
           }
         }
       }
