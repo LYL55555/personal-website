@@ -15,7 +15,7 @@ const HeroTextContent = () => {
         Yanle (Tony) Lyu
       </h1>
       <p className="text-lg sm:text-xl lg:text-2xl mb-6 max-w-[800px] mx-auto sm:mx-0 text-solarized-base00 dark:text-solarized-base1 font-medium">
-        MS in Data Science at Brown. Machine Learning Engineer at Q&Q AI. Building systems for Valuation Intelligence and Trustworthy ML.
+        MS in Data Science at Brown. Tech Lead and Machine Learning Engineer at Q&Q AI. Building systems for Valuation Intelligence and Trustworthy ML.
       </p>
       <div className="flex flex-wrap items-center gap-4 sm:justify-start justify-center">
         <Link

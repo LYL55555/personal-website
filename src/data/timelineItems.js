@@ -2,7 +2,7 @@
 const TIMELINE_ITEMS = [
   {
     date: "Aug 2025 - Present",
-    title: "Machine Learning Engineer",
+    title: "Tech Lead and Machine Learning Engineer",
     location: "Q&Q AI | New York, NY (Hybrid)",
     description: "Building LLM-driven financial pipelines and agent systems for valuation reasoning.",
     logo: "/images/experience/placeholder-company.svg",
